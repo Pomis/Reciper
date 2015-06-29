@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StoreActivity">
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:isScrollContainer="true"
+        android:id="@+id/StoreLV"
+        ></ListView>
+
+
+    <ImageButton
+        android:id="@+id/fab"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/fba_background"
+        android:stateListAnimator="@drawable/anim"
+        android:src="@drawable/ic_add"
+        android:padding="10dp"
+        android:elevation="4dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:onClick="addContent"
+        />
+
+    <ImageButton
+        android:id="@+id/fabNext"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="88dp"
+        android:background="@drawable/fba_background"
+        android:stateListAnimator="@drawable/anim"
+        android:src="@drawable/ic_arrow_forward"
+        android:elevation="4dp"
+        android:onClick="openRecipes"
+        android:visibility="invisible"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:id="@+id/tip"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:id="@+id/tipNext"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="82dp"/>
+</RelativeLayout>
