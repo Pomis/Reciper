@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -74,7 +73,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity {
     }
 
     public void addToFavs(View view) {
-        Container.favouriteRecipies.add(Container.findRecipeByTitle(getIntent().getExtras().getString("name")));
+        Container.favouriteRecipes.add(Container.findRecipeByTitle(getIntent().getExtras().getString("name")));
         Toast.makeText(this, "Рецепт "+getIntent().getExtras().getString("name")+" добавлен в Избранное", Toast.LENGTH_LONG).show();
     }
 }

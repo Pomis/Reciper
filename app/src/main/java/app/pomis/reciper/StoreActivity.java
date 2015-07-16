@@ -14,9 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 
 
 public class StoreActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
@@ -25,11 +22,13 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
 
     ListView mListView;
     TinyDB tinydb;
+    DatabaseInstruments dbi;
     public static ArrayList<String> selectedContents = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+        dbi = new DatabaseInstruments(this);
         tinydb = new TinyDB(this);
 
         // Массив
@@ -169,14 +168,8 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
     }
 
     void loadRecipies(){
-        int[] recipes = {R.array.recipe_1, R.array.recipe_2, R.array.recipe_3, R.array.recipe_4,
-                R.array.recipe_5, R.array.recipe_6, R.array.recipe_7, R.array.recipe_8,
-                R.array.recipe_9};
-        for (int i=0; i<recipes.length; i++){
-            String[] stringList = getResources().getStringArray(recipes[i]);
-            ArrayList<String> contents = new ArrayList<String>(Arrays.asList(stringList[3].split(",")));
-            Container.RecipiesList.add(new Recipe(stringList[0], stringList[1], stringList[2], contents));
-        }
+        Container.RecipesList = dbi.loadBasicRecipes();
+
 
     }
 }

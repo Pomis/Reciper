@@ -27,16 +27,20 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_selector);
         allContents.clear();
-        for (int i=0; i<Container.RecipiesList.size(); i++)
-            for (int j=0; j<Container.RecipiesList.get(i).Contents.size(); j++){
-                allContents.add(Container.RecipiesList.get(i).Contents.get(j));
+        for (int i=0; i<Container.RecipesList.size(); i++)
+            for (int j=0; j<Container.RecipesList.get(i).Contents.size(); j++){
+                allContents.add(Container.RecipesList.get(i).Contents.get(j));
             }
         allContents = DelDubl(allContents);
         Container.allContents=allContents;
         // Массив
         mListView = (ListView)findViewById(R.id.StoreSelectorLV);
         //if (!sharedPrefsAreLoaded) loadSharedPrefs();
-        final ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_item, allContents);
+        ArrayList<String> notAddedContents = new ArrayList<>();
+        for (String str : allContents)
+            if (!Container.selectedContents.contains(str))
+                notAddedContents.add(str);
+        final ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_item, notAddedContents);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
     }

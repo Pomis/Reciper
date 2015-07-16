@@ -12,9 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class RecipiesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
@@ -68,10 +65,10 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, FullRecipeInfoActivity.class);
         intent.putExtra("name", mostRelevantRecipies.get(i));
-        for (int c=0; c<Container.RecipiesList.size(); c++){
-            if (Container.RecipiesList.get(c).Name==mostRelevantRecipies.get(i)){
-                intent.putExtra("description", Container.RecipiesList.get(c).Description);
-                intent.putExtra("short_description", Container.RecipiesList.get(c).ShortDescription);
+        for (int c=0; c<Container.RecipesList.size(); c++){
+            if (Container.RecipesList.get(c).Name==mostRelevantRecipies.get(i)){
+                intent.putExtra("description", Container.RecipesList.get(c).Description);
+                intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
             }
         }
         startActivity(intent);
@@ -79,14 +76,14 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
 
     public void loadRelevantRecipes(){
         mostRelevantRecipies.clear();
-        for (int i=0; i<Container.RecipiesList.size(); i++){
-            calculateRelevancy(Container.RecipiesList.get(i));
+        for (int i=0; i<Container.RecipesList.size(); i++){
+            calculateRelevancy(Container.RecipesList.get(i));
         }
         sortByRelevancy();
         Container.removeDoubles();
-        for (int i=Container.RecipiesList.size()-1; i>Container.RecipiesList.size()-10&&i>=0; i--){
-            if (Container.RecipiesList.get(i).Relevancy>0)
-            mostRelevantRecipies.add(Container.RecipiesList.get(i).Name);
+        for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
+            if (Container.RecipesList.get(i).Relevancy>0)
+            mostRelevantRecipies.add(Container.RecipesList.get(i).Name);
         }
 
         // Массив
@@ -111,15 +108,15 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
 
 
     void sortByRelevancy(){
-        for(int i = Container.RecipiesList.size()-1 ; i > 0 ; i--){
+        for(int i = Container.RecipesList.size()-1 ; i > 0 ; i--){
             for(int j = 0 ; j < i ; j++){
             //  Сравниваем элементы попарно,
             //  если они имеют неправильный порядок,
             //  то меняем местами
-            if( Container.RecipiesList.get(j).Relevancy > Container.RecipiesList.get(j+1).Relevancy ){
-                Recipe tmp = Container.RecipiesList.get(j);
-                Container.RecipiesList.set(j,Container.RecipiesList.get(j+1));
-                Container.RecipiesList.set(j+1,tmp);
+            if( Container.RecipesList.get(j).Relevancy > Container.RecipesList.get(j+1).Relevancy ){
+                Recipe tmp = Container.RecipesList.get(j);
+                Container.RecipesList.set(j,Container.RecipesList.get(j+1));
+                Container.RecipesList.set(j+1,tmp);
             }
         }
     }
