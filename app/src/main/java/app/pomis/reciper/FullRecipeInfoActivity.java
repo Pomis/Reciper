@@ -74,6 +74,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity {
 
     public void addToFavs(View view) {
         Container.favouriteRecipes.add(Container.findRecipeByTitle(getIntent().getExtras().getString("name")));
+        DatabaseInstruments.singleton.makeFavorite(getIntent().getExtras().getString("name"), true);
         Toast.makeText(this, "Рецепт "+getIntent().getExtras().getString("name")+" добавлен в Избранное", Toast.LENGTH_LONG).show();
     }
 }
