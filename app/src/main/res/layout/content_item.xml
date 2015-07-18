@@ -15,5 +15,6 @@
         android:layout_height="25dp"
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_done"
-        android:id="@+id/rowImage"/>
+        android:id="@+id/rowImage"
+        android:visibility="invisible"/>
 </RelativeLayout>

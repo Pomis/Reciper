@@ -17,11 +17,15 @@ import java.util.List;
 public class ContentAdapter extends ArrayAdapter {
     private final Activity activity;
     private final List<String> list;
+    private List<String> selection = null;
+    private int resource;
 
-    public ContentAdapter(Context context, int resource, List objects) {
+    public ContentAdapter(Context context, int resource, List objects, List selection) {
         super(context, resource, objects);
         activity = (Activity)context;
         list = objects;
+        if (selection!=null) this.selection = selection;
+        this.resource = resource;
     }
 
 
@@ -34,7 +38,7 @@ public class ContentAdapter extends ArrayAdapter {
         {
             // Get a new instance of the row layout view
             LayoutInflater inflater = activity.getLayoutInflater();
-            rowView = inflater.inflate(R.layout.content_item, null);
+            rowView = inflater.inflate(resource, null);
 
             // Hold the view objects in an object, that way the don't need to be "re-  finded"
             view = new ViewHolder();
@@ -49,10 +53,17 @@ public class ContentAdapter extends ArrayAdapter {
         /** Set data to your Views. */
         String item = list.get(position);
         view.textView.setText(item);
-        if (Container.checkIfContains(list.get(position)))
+        if (this.selection==null) {
+            if (Container.checkIfContains(list.get(position)))
+                view.imageView.setVisibility(View.VISIBLE);
+            else
+                view.imageView.setVisibility(View.INVISIBLE);
+        }
+        else if (selection.contains(list.get(position))) {
             view.imageView.setVisibility(View.VISIBLE);
-        else
-            view.imageView.setVisibility(View.INVISIBLE);
+        }
+            else
+                view.imageView.setVisibility(View.INVISIBLE);
 
         return rowView;
     }

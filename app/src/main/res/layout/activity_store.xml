@@ -11,7 +11,7 @@
         ></ListView>
 
 
-    <ImageButton
+    <RelativeLayout
         android:id="@+id/fab"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -22,15 +22,22 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/fba_background"
         android:stateListAnimator="@drawable/anim"
-        android:src="@drawable/ic_add"
         android:padding="10dp"
         android:elevation="4dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:onClick="addContent"
-        />
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_add"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+        </RelativeLayout>
 
-    <ImageButton
+    <RelativeLayout
         android:id="@+id/fabNext"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -41,14 +48,21 @@
         android:layout_marginBottom="88dp"
         android:background="@drawable/fba_background"
         android:stateListAnimator="@drawable/anim"
-        android:src="@drawable/ic_arrow_forward"
         android:elevation="4dp"
         android:onClick="openRecipes"
         android:visibility="invisible"
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        />
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+        </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"

@@ -25,7 +25,7 @@ public class DatabaseInstruments {
     }
 
     public void createDB() {
-        DB.execSQL("DROP TABLE Recipes");
+        DB.execSQL("DROP TABLE IF EXISTS Recipes");
         DB.execSQL("CREATE TABLE IF NOT EXISTS Recipes" +
                 "(" +
                 "RID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +

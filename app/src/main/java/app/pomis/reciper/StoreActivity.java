@@ -111,14 +111,14 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         ((TextView)findViewById(R.id.tipNext)).setText("");
 
         if (Container.selectedContents.size()>minLength){
-            ((ImageButton)findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
             if (Container.selectedContents.size()<maxLength){
                 ((TextView)findViewById(R.id.tipNext)).setText("Подобрать рецепты");
                 ((TextView)findViewById(R.id.tip)).setText("Добавить продукты");
             }
         }
         else{
-            ((ImageButton)findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
         }
 
     }
@@ -141,13 +141,13 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
     public void addContent(View v){
         startActivityForResult(new Intent(this, ContentSelector.class),REQUEST_ID);
     }
-    String myValue;
+    ArrayList<String> myValue;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ID) {
             if (resultCode == RESULT_OK) {
-                myValue = data.getStringExtra("test");
-                if (!selectedContents.contains(myValue)) selectedContents.add(myValue);
+                myValue = data.getStringArrayListExtra("test");
+                if (!selectedContents.contains(myValue)) selectedContents.addAll(myValue);
                 saveSharedPrefs();
                 RefreshList();
                 refreshTip();

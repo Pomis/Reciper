@@ -14,6 +14,9 @@ public class Recipe {
     public String ShortDescription;
     public int Relevancy=0;
 
+    public String getRelevancyString(){
+        return Relevancy+"/"+Contents.size()+" продуктов";
+    }
     public Recipe (String name, String shortDescription, String description, ArrayList<String> contents){
         Name = name;
         Contents = contents;

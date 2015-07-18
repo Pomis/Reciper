@@ -22,6 +22,8 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
     ListView mListView;
     TinyDB tinydb;
     static public ArrayList<String> allContents = new ArrayList<>();
+    static public ArrayList<String> addingContents = new ArrayList<>();
+    static ArrayList<String> notAddedContents = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +38,11 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         // Массив
         mListView = (ListView)findViewById(R.id.StoreSelectorLV);
         //if (!sharedPrefsAreLoaded) loadSharedPrefs();
-        ArrayList<String> notAddedContents = new ArrayList<>();
+
         for (String str : allContents)
             if (!Container.selectedContents.contains(str))
                 notAddedContents.add(str);
-        final ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_item, notAddedContents);
+        final ArrayAdapter<String> aa = new ContentAdapter(this, R.layout.content_item_tall, notAddedContents, addingContents);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
     }
@@ -68,13 +70,30 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        addingContents.clear();
+        notAddedContents.clear();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent resultData = new Intent();
-        resultData.putExtra("test", ((TextView)view).getText());
-        setResult(Activity.RESULT_OK, resultData);
-        finish();
+        if (!addingContents.contains(notAddedContents.get(i))){
+            addingContents.add(notAddedContents.get(i));
+        }
+        else{
+            addingContents.remove(notAddedContents.get(i));
+        }
+        final ArrayAdapter<String> aa = new ContentAdapter(this, R.layout.content_item_tall, notAddedContents, addingContents);
+        mListView.setAdapter(aa);
+        mListView.setOnItemClickListener(this);
+
+        if (addingContents.size()>0){
+            findViewById(R.id.fab_add_selected).setVisibility(View.VISIBLE);
+        }
+        else
+            findViewById(R.id.fab_add_selected).setVisibility(View.INVISIBLE);
     }
 
     public ArrayList<String> DelDubl(ArrayList<String> array){
@@ -82,5 +101,12 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         Collections.sort(result);
         //System.out.println(result);
         return result;
+    }
+
+    public void addSelected(View view) {
+        Intent resultData = new Intent();
+        resultData.putExtra("test", addingContents);
+        setResult(Activity.RESULT_OK, resultData);
+        finish();
     }
 }

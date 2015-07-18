@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class RecipiesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-    ArrayList<String> mostRelevantRecipies = new ArrayList<>();
+    ArrayList<Recipe> mostRelevantRecipies = new ArrayList<>();
     ListView mListView;
     boolean loaded = false;
     @Override
@@ -64,9 +64,9 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, FullRecipeInfoActivity.class);
-        intent.putExtra("name", mostRelevantRecipies.get(i));
+        intent.putExtra("name", mostRelevantRecipies.get(i).Name);
         for (int c=0; c<Container.RecipesList.size(); c++){
-            if (Container.RecipesList.get(c).Name==mostRelevantRecipies.get(i)){
+            if (Container.RecipesList.get(c).Name==mostRelevantRecipies.get(i).Name){
                 intent.putExtra("description", Container.RecipesList.get(c).Description);
                 intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
             }
@@ -83,13 +83,13 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
         Container.removeDoubles();
         for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
             if (Container.RecipesList.get(i).Relevancy>0)
-            mostRelevantRecipies.add(Container.RecipesList.get(i).Name);
+            mostRelevantRecipies.add(Container.RecipesList.get(i));
         }
 
         // Массив
         mListView = (ListView)findViewById(R.id.RecipiesLV);
         // Адаптер
-        final ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_item, mostRelevantRecipies);
+        final ArrayAdapter<String> aa = new RecipeAdapter(this, R.layout.list_item, mostRelevantRecipies);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
         loaded = true;
