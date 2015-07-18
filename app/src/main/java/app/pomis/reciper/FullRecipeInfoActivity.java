@@ -23,7 +23,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity {
         ((TextView)findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
         ((TextView)findViewById(R.id.full_info_text)).setText(getIntent().getExtras().getString("description"));
         ArrayList<String> contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
-        final ContentAdapter aa = new ContentAdapter(this, R.layout.content_item, contentsList, null);
+        final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
         ((ListView)findViewById(R.id.Contents)).setAdapter(aa);
         setListViewHeightBasedOnChildren((ListView)findViewById(R.id.Contents));
         setTitle(getIntent().getExtras().getString("name"));

@@ -19,13 +19,19 @@ public class ContentAdapter extends ArrayAdapter {
     private final List<String> list;
     private List<String> selection = null;
     private int resource;
+    private Mode mode;
 
-    public ContentAdapter(Context context, int resource, List objects, List selection) {
+    public enum Mode {
+        STORE, SELECTOR, RECIPE
+    }
+
+    public ContentAdapter(Mode mode, Context context, int resource, List objects, List selection) {
         super(context, resource, objects);
-        activity = (Activity)context;
+        activity = (Activity) context;
         list = objects;
-        if (selection!=null) this.selection = selection;
+        if (selection != null) this.selection = selection;
         this.resource = resource;
+        this.mode = mode;
     }
 
 
@@ -34,8 +40,7 @@ public class ContentAdapter extends ArrayAdapter {
         View rowView = convertView;
         ViewHolder view;
 
-        if(rowView == null)
-        {
+        if (rowView == null) {
             // Get a new instance of the row layout view
             LayoutInflater inflater = activity.getLayoutInflater();
             rowView = inflater.inflate(resource, null);
@@ -53,22 +58,31 @@ public class ContentAdapter extends ArrayAdapter {
         /** Set data to your Views. */
         String item = list.get(position);
         view.textView.setText(item);
-        if (this.selection==null) {
-            if (Container.checkIfContains(list.get(position)))
-                view.imageView.setVisibility(View.VISIBLE);
-            else
+
+        switch (mode) {
+            case RECIPE:
+                if (Container.checkIfContains(list.get(position)))
+                    view.imageView.setVisibility(View.VISIBLE);
+                else
+                    view.imageView.setVisibility(View.INVISIBLE);
+                break;
+
+            case SELECTOR:
+                if (selection.contains(list.get(position))) {
+                    view.imageView.setVisibility(View.VISIBLE);
+                } else
+                    view.imageView.setVisibility(View.INVISIBLE);
+                break;
+
+            case STORE:
                 view.imageView.setVisibility(View.INVISIBLE);
+                break;
         }
-        else if (selection.contains(list.get(position))) {
-            view.imageView.setVisibility(View.VISIBLE);
-        }
-            else
-                view.imageView.setVisibility(View.INVISIBLE);
 
         return rowView;
     }
 
-    protected static class ViewHolder{
+    protected static class ViewHolder {
         protected TextView textView;
         protected ImageView imageView;
     }

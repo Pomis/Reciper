@@ -3,12 +3,37 @@
     android:layout_height="match_parent"
     tools:context=".StoreActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/mainColor"
+        android:layout_alignParentTop="true"
+        android:layout_height="56dp">
+
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        >
+        <ImageButton
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_favorite_border"
+            android:src="@drawable/ic_favorite_border"
+            android:onClick="openFavs"/>
+    </RelativeLayout>
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:isScrollContainer="true"
+        android:layout_marginTop="56dp"
         android:id="@+id/StoreLV"
-        ></ListView>
+        />
 
 
     <RelativeLayout
@@ -21,7 +46,6 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/fba_background"
-        android:stateListAnimator="@drawable/anim"
         android:padding="10dp"
         android:elevation="4dp"
         android:scaleType="fitCenter"
@@ -47,7 +71,6 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="88dp"
         android:background="@drawable/fba_background"
-        android:stateListAnimator="@drawable/anim"
         android:elevation="4dp"
         android:onClick="openRecipes"
         android:visibility="invisible"

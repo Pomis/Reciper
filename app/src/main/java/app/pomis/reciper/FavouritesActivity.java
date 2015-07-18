@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class FavouritesActivity extends ActionBarActivity {
@@ -16,10 +18,17 @@ public class FavouritesActivity extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.favColorDark));
             getWindow().setStatusBarColor(getResources().getColor(R.color.favColorDark));
-            
+
             //setTitleColor(getResources().getColor(R.color.favColorDark));
         }
         setContentView(R.layout.activity_favourites);
+
+
+        if (Container.favouriteRecipes != null) {
+            ((ListView) findViewById(R.id.listFavs)).setAdapter(
+                    new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes)
+            );
+        }
     }
 
 

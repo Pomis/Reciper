@@ -42,7 +42,8 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         for (String str : allContents)
             if (!Container.selectedContents.contains(str))
                 notAddedContents.add(str);
-        final ArrayAdapter<String> aa = new ContentAdapter(this, R.layout.content_item_tall, notAddedContents, addingContents);
+        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
+                this, R.layout.content_item_tall, notAddedContents, addingContents);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
     }
@@ -85,7 +86,8 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         else{
             addingContents.remove(notAddedContents.get(i));
         }
-        final ArrayAdapter<String> aa = new ContentAdapter(this, R.layout.content_item_tall, notAddedContents, addingContents);
+        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
+                this, R.layout.content_item_tall, notAddedContents, addingContents);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
 

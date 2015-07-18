@@ -1,8 +1,11 @@
 package app.pomis.reciper;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,13 +19,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class StoreActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class StoreActivity extends Activity implements AdapterView.OnItemClickListener {
 
     boolean sharedPrefsAreLoaded = false;
 
     ListView mListView;
     TinyDB tinydb;
     DatabaseInstruments dbi;
+    Toolbar toolbar;
     public static ArrayList<String> selectedContents = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,47 +38,42 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         // Массив
         mListView = (ListView)findViewById(R.id.StoreLV);
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
-        RefreshList();
+
         mListView.setOnItemClickListener(this);
         saveSharedPrefs();
 
         loadRecipies();
         Container.selectedContents = this.selectedContents;
-
+        RefreshList();
         refreshTip();
 
-        setTitle("Мои продукты");
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Мои продукты");
+        toolbar.setSubtitle(getComment());
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+
+
     }
 
+    public String getComment(){
+        if (selectedContents.size()==0)
+            return "Что-то совсем пусто...";
+        if (selectedContents.size()>0 && selectedContents.size()<4)
+            return "Маловато продуктов, надо бы побольше";
+        if (selectedContents.size()>=4 && selectedContents.size()<6)
+            return "Хм, из этого можно что-то сделать";
+        if (selectedContents.size()>6)
+            return "Сколько продуктов то!";
+        if (selectedContents.size()==11)
+            return "Вы точно студент?";
+        return "";
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_store, menu);
         return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_next) {
-            startActivity(new Intent(this, RecipiesActivity.class));
-            return true;
-        }
-        else if (id == R.id.action_clear){
-            clearList();
-        }
-        else if (id == R.id.action_favs){
-            startActivity(new Intent(this, FavouritesActivity.class));
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -84,6 +83,7 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         RefreshList();
         saveSharedPrefs();
         refreshTip();
+        toolbar.setSubtitle(getComment());
     }
 
     @Override
@@ -97,6 +97,7 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         super.onResume();
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
         refreshTip();
+        toolbar.setSubtitle(getComment());
     }
 
     void refreshTip(){
@@ -151,6 +152,7 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
                 saveSharedPrefs();
                 RefreshList();
                 refreshTip();
+                toolbar.setSubtitle(getComment());
             }
         }
     }
@@ -160,10 +162,12 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         saveSharedPrefs();
         RefreshList();
         refreshTip();
+        toolbar.setSubtitle(getComment());
     }
 
     void RefreshList(){
-        final ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_item, selectedContents);
+        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.STORE,
+                this, R.layout.content_item_tall, selectedContents, new ArrayList());
         mListView.setAdapter(aa);
     }
 
@@ -171,5 +175,9 @@ public class StoreActivity extends ActionBarActivity implements AdapterView.OnIt
         Container.RecipesList = dbi.loadBasicRecipes();
 
 
+    }
+
+    public void openFavs(View view) {
+        startActivity(new Intent(this, FavouritesActivity.class));
     }
 }
