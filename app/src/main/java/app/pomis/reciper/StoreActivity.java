@@ -60,7 +60,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
             return "Что-то совсем пусто...";
         if (selectedContents.size()>0 && selectedContents.size()<4)
             return "Маловато продуктов, надо бы побольше";
-        if (selectedContents.size()>=4 && selectedContents.size()<6)
+        if (selectedContents.size()>=4 && selectedContents.size()<=6)
             return "Хм, из этого можно что-то сделать";
         if (selectedContents.size()>6)
             return "Сколько продуктов то!";

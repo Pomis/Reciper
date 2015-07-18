@@ -26,6 +26,7 @@
         android:minWidth="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/title"
+        android:textSize="18dp"
         android:textColor="@color/title"
         android:text="Без названия"
         android:layout_alignParentTop="true"

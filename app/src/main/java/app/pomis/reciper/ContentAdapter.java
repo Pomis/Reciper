@@ -2,6 +2,7 @@ package app.pomis.reciper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,19 +70,44 @@ public class ContentAdapter extends ArrayAdapter {
 
             case SELECTOR:
                 if (selection.contains(list.get(position))) {
+                    view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_done));
                     view.imageView.setVisibility(View.VISIBLE);
-                } else
-                    view.imageView.setVisibility(View.INVISIBLE);
+
+                }
+                else{
+                    view.imageView.setVisibility(View.VISIBLE);
+                    view.imageView.setImageDrawable(getIcon(item));
+                }
                 break;
 
             case STORE:
-                view.imageView.setVisibility(View.INVISIBLE);
+                view.imageView.setVisibility(View.VISIBLE);
+                view.imageView.setImageDrawable(getIcon(item));
                 break;
         }
 
         return rowView;
     }
+    private Drawable getIcon(String icoName){
+        Drawable drawable;
+        switch (icoName){
+            case "Кабачок": drawable=getContext().getResources().getDrawable(R.drawable.kabak);break;
+            case "Лавровый лист": drawable=getContext().getResources().getDrawable(R.drawable.lavr);break;
+            case "Лук": drawable=getContext().getResources().getDrawable(R.drawable.look);break;
+            case "Масло": drawable=getContext().getResources().getDrawable(R.drawable.maslow);break;
+            case "Яйца": drawable=getContext().getResources().getDrawable(R.drawable.egg);break;
+            case "Соль": drawable=getContext().getResources().getDrawable(R.drawable.salt);break;
+            case "Сода": drawable=getContext().getResources().getDrawable(R.drawable.soda);break;
+            case "Мука": drawable=getContext().getResources().getDrawable(R.drawable.mooka);break;
+            case "Огурец": drawable=getContext().getResources().getDrawable(R.drawable.ogurez);break;
+            case "Помидор": drawable=getContext().getResources().getDrawable(R.drawable.pomi);break;
+            case "Сметана": drawable=getContext().getResources().getDrawable(R.drawable.smetana);break;
+            case "Майонез": drawable=getContext().getResources().getDrawable(R.drawable.mayonez);break;
+            default: drawable=getContext().getResources().getDrawable(R.drawable.product);break;
+        }
+        return drawable;
 
+    }
     protected static class ViewHolder {
         protected TextView textView;
         protected ImageView imageView;
