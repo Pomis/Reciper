@@ -45,6 +45,7 @@
             android:layout_height="24dp"
             android:background="@drawable/ic_favorite_border"
             android:src="@drawable/ic_favorite_border"
+            android:onClick="openFavs"
             />
     </RelativeLayout>
     <ListView

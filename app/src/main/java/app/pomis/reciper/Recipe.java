@@ -12,16 +12,18 @@ public class Recipe {
     public ArrayList<String> Contents = new ArrayList<>();
     public String Description;
     public String ShortDescription;
+    public int RID;
     public int Relevancy=0;
 
     public String getRelevancyString(){
         return Relevancy+"/"+Contents.size()+" продуктов";
     }
-    public Recipe (String name, String shortDescription, String description, ArrayList<String> contents){
+    public Recipe (String name, String shortDescription, String description, ArrayList<String> contents, int rid){
         Name = name;
         Contents = contents;
         Description = description;
         ShortDescription = shortDescription;
+        RID=rid;
     }
     public Recipe(){}
 
