@@ -10,6 +10,7 @@ public class Container {
     static public ArrayList<Recipe> favouriteRecipes = new ArrayList<>();
     static public ArrayList<String> allContents = new ArrayList<>();
     static public ArrayList<String> selectedContents;
+    static public ArrayList<String> addingContents = new ArrayList<>();
 
 
     static public void removeDoubles(ArrayList<Recipe> list){

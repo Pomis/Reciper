@@ -25,12 +25,16 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
     ListView mListView;
     TinyDB tinydb;
     static public ArrayList<String> allContents = new ArrayList<>();
-    static public ArrayList<String> addingContents = new ArrayList<>();
     static ArrayList<String> notAddedContents = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_selector);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         allContents.clear();
         for (int i=0; i<Container.RecipesList.size(); i++)
             for (int j=0; j<Container.RecipesList.get(i).Contents.size(); j++){
@@ -46,11 +50,10 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
             if (!Container.selectedContents.contains(str))
                 notAddedContents.add(str);
         mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
-                this, R.layout.content_item_tall, notAddedContents, addingContents);
+                this, R.layout.content_item_tall, notAddedContents, Container.addingContents);
         mListView.setAdapter(mListAdapter);
         mListView.setOnItemClickListener(this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,21 +80,20 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
     @Override
     protected void onPause() {
         super.onPause();
-        addingContents.clear();
         notAddedContents.clear();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (!addingContents.contains(notAddedContents.get(i))){
-            addingContents.add(notAddedContents.get(i));
+        if (!Container.addingContents.contains(notAddedContents.get(i))){
+            Container.addingContents.add(notAddedContents.get(i));
         }
         else{
-            addingContents.remove(notAddedContents.get(i));
+            Container.addingContents.remove(notAddedContents.get(i));
         }
         mListAdapter.notifyDataSetChanged();
 
-        if (addingContents.size()>0){
+        if (Container.addingContents.size()>0){
             findViewById(R.id.fab_add_selected).setVisibility(View.VISIBLE);
         }
         else
@@ -107,7 +109,7 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
 
     public void addSelected(View view) {
         Intent resultData = new Intent();
-        resultData.putExtra("test", addingContents);
+        resultData.putExtra("test", Container.addingContents);
         setResult(Activity.RESULT_OK, resultData);
         finish();
     }

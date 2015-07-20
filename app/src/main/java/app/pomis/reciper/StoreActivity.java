@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -24,7 +26,12 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     TinyDB tinydb;
     DatabaseInstruments dbi;
     Toolbar toolbar;
+    Animation animation;
+    Toast mToast;
+    //boolean fabIsHiding = false;
+
     public static ArrayList<String> selectedContents = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +40,13 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         tinydb = new TinyDB(this);
 
         // Массив
-        mListView = (ListView)findViewById(R.id.StoreLV);
+        mListView = (ListView) findViewById(R.id.StoreLV);
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
 
         mListView.setOnItemClickListener(this);
         saveSharedPrefs();
 
-        Container.favouriteRecipes=dbi.loadFaves();
+        Container.favouriteRecipes = dbi.loadFaves();
         loadRecipes();
         Container.selectedContents = this.selectedContents;
         RefreshList();
@@ -53,16 +60,16 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
 
     }
 
-    public String getComment(){
-        if (selectedContents.size()==0)
+    public String getComment() {
+        if (selectedContents.size() == 0)
             return "Что-то совсем пусто...";
-        if (selectedContents.size()>0 && selectedContents.size()<4)
+        if (selectedContents.size() > 0 && selectedContents.size() < 4)
             return "Маловато продуктов, надо бы побольше";
-        if (selectedContents.size()>=4 && selectedContents.size()<=6)
+        if (selectedContents.size() >= 4 && selectedContents.size() <= 6)
             return "Хм, из этого можно что-то сделать";
-        if (selectedContents.size()>6)
+        if (selectedContents.size() > 6)
             return "Сколько продуктов то!";
-        if (selectedContents.size()==11)
+        if (selectedContents.size() == 11)
             return "Вы точно студент?";
         return "";
     }
@@ -76,7 +83,11 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(this, "Продукт "+selectedContents.get(i)+" убран из списка", Toast.LENGTH_SHORT).show();
+        if (mToast!=null)
+            mToast.cancel();
+        mToast=Toast.makeText(this, "Продукт " + selectedContents.get(i) + " убран из списка", Toast.LENGTH_SHORT);
+        mToast.show();
+
         selectedContents.remove(i);
         RefreshList();
         saveSharedPrefs();
@@ -98,49 +109,100 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setSubtitle(getComment());
     }
 
-    void refreshTip(){
-        int maxLength=7;
-        int minLength=3;
-        if (Container.selectedContents.size()<=minLength){
-            ((TextView)findViewById(R.id.tip)).setText("Добавьте продукты!");
-        }
-        else {
+    // FAB анимация туть
+    void refreshTip() {
+        int maxLength = 7;
+        int minLength = 3;
+        if (Container.selectedContents.size() <= minLength) {
+            ((TextView) findViewById(R.id.tip)).setText("Добавьте продукты!");
+        } else {
             ((TextView) findViewById(R.id.tip)).setText("");
         }
-        ((TextView)findViewById(R.id.tipNext)).setText("");
+        ((TextView) findViewById(R.id.tipNext)).setText("");
 
-        if (Container.selectedContents.size()>minLength){
-            (findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
-            if (Container.selectedContents.size()<maxLength){
-                ((TextView)findViewById(R.id.tipNext)).setText("Подобрать рецепты");
-                ((TextView)findViewById(R.id.tip)).setText("Добавить продукты");
+        if (Container.selectedContents.size() > minLength) {
+            if ((findViewById(R.id.fabNext)).getVisibility()==View.INVISIBLE)
+                showFab();//(findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
+            if (Container.selectedContents.size() < maxLength) {
+                ((TextView) findViewById(R.id.tipNext)).setText("Подобрать рецепты");
+                ((TextView) findViewById(R.id.tip)).setText("Добавить продукты");
             }
-        }
-        else{
-            (findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
+        } else {
+            if ((findViewById(R.id.fabNext)).getVisibility()==View.VISIBLE)
+                hideFab();//(findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
         }
 
     }
 
-    public void openRecipes(View v){
+    void hideFab() {
+        //fabIsHiding = true;
+        animation = AnimationUtils.loadAnimation(this, R.anim.abc_shrink_fade_out_from_bottom);
+        (findViewById(R.id.fabNext)).startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                (findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+
+    void showFab() {
+        //if (!isFavorite) {
+        //    fabIsHiding = false;
+        animation = AnimationUtils.loadAnimation(this, R.anim.abc_grow_fade_in_from_bottom);
+        (findViewById(R.id.fabNext)).startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                (findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        //}
+    }
+
+    public void openRecipes(View v) {
         startActivity(new Intent(this, RecipiesActivity.class));
     }
 
-    void saveSharedPrefs(){
+    void saveSharedPrefs() {
         tinydb.putListString("selectedContents", selectedContents);
     }
 
-    void loadSharedPrefs(){
-        selectedContents=tinydb.getListString("selectedContents");
+    void loadSharedPrefs() {
+        selectedContents = tinydb.getListString("selectedContents");
         sharedPrefsAreLoaded = true;
     }
 
 
-    int REQUEST_ID=1;
-    public void addContent(View v){
-        startActivityForResult(new Intent(this, ContentSelector.class),REQUEST_ID);
+    int REQUEST_ID = 1;
+
+    public void addContent(View v) {
+        startActivityForResult(new Intent(this, ContentSelector.class), REQUEST_ID);
     }
+
     ArrayList<String> myValue;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ID) {
@@ -150,12 +212,13 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
                 saveSharedPrefs();
                 RefreshList();
                 refreshTip();
+                Container.addingContents.clear();
                 toolbar.setSubtitle(getComment());
             }
         }
     }
 
-    void clearList(){
+    void clearList() {
         selectedContents.clear();
         saveSharedPrefs();
         RefreshList();
@@ -163,13 +226,13 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setSubtitle(getComment());
     }
 
-    void RefreshList(){
+    void RefreshList() {
         final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.STORE,
                 this, R.layout.content_item_tall, selectedContents, new ArrayList());
         mListView.setAdapter(aa);
     }
 
-    void loadRecipes(){
+    void loadRecipes() {
         Container.RecipesList = dbi.loadBasicRecipes();
 
 
