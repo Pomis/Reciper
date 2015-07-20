@@ -11,12 +11,32 @@
         android:layout_height="56dp">
 
     </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:id="@+id/tip"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:id="@+id/tipNext"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="82dp"/>
     <RelativeLayout
         android:layout_alignParentRight="true"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="4dp"
+        android:onClick="openFavs"
         >
         <ImageButton
             android:layout_centerVertical="true"
@@ -25,7 +45,7 @@
             android:layout_height="24dp"
             android:background="@drawable/ic_favorite_border"
             android:src="@drawable/ic_favorite_border"
-            android:onClick="openFavs"/>
+            />
     </RelativeLayout>
     <ListView
         android:layout_width="fill_parent"
@@ -87,23 +107,5 @@
             />
         </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:id="@+id/tip"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="10dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:id="@+id/tipNext"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="82dp"/>
 </RelativeLayout>

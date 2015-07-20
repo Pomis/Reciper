@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import java.util.HashSet;
 
 public class ContentSelector extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
+    ArrayAdapter<String> mListAdapter;
     ListView mListView;
     TinyDB tinydb;
     static public ArrayList<String> allContents = new ArrayList<>();
@@ -42,9 +45,9 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         for (String str : allContents)
             if (!Container.selectedContents.contains(str))
                 notAddedContents.add(str);
-        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
+        mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
                 this, R.layout.content_item_tall, notAddedContents, addingContents);
-        mListView.setAdapter(aa);
+        mListView.setAdapter(mListAdapter);
         mListView.setOnItemClickListener(this);
     }
 
@@ -86,10 +89,7 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         else{
             addingContents.remove(notAddedContents.get(i));
         }
-        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
-                this, R.layout.content_item_tall, notAddedContents, addingContents);
-        mListView.setAdapter(aa);
-        mListView.setOnItemClickListener(this);
+        mListAdapter.notifyDataSetChanged();
 
         if (addingContents.size()>0){
             findViewById(R.id.fab_add_selected).setVisibility(View.VISIBLE);
@@ -111,4 +111,5 @@ public class ContentSelector extends ActionBarActivity implements AdapterView.On
         setResult(Activity.RESULT_OK, resultData);
         finish();
     }
+
 }

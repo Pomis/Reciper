@@ -2,6 +2,7 @@ package app.pomis.reciper;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
     boolean fabIsHiding = false;
     boolean nowAnimating = false;
     boolean isFavorite = false;
+    //boolean scrollStarted = false;
+    Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
         if (isFavorite) {
             (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
         }
+        (findViewById(R.id.fabAddToFavs)).bringToFront();
         ((TextView) findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
         ((TextView) findViewById(R.id.full_info_text)).setText(getIntent().getExtras().getString("description"));
         ArrayList<String> contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
@@ -131,15 +135,16 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
 
     void hideFab() {
         fabIsHiding = true;
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.abc_shrink_fade_out_from_bottom);
+        animation = AnimationUtils.loadAnimation(this, R.anim.abc_shrink_fade_out_from_bottom);
         (findViewById(R.id.fabAddToFavs)).startAnimation(animation);
         animation.setAnimationListener(this);
     }
 
+
     void showFab() {
         if (!isFavorite) {
             fabIsHiding = false;
-            Animation animation = AnimationUtils.loadAnimation(this, R.anim.abc_grow_fade_in_from_bottom);
+            animation = AnimationUtils.loadAnimation(this, R.anim.abc_grow_fade_in_from_bottom);
             (findViewById(R.id.fabAddToFavs)).startAnimation(animation);
             animation.setAnimationListener(this);
         }
@@ -152,12 +157,14 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        nowAnimating = false;
-        if (fabIsHiding) {
-            (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
-        } else {
-            (findViewById(R.id.fabAddToFavs)).setVisibility(View.VISIBLE);
-        }
+        //if (scrollStarted) {
+            nowAnimating = false;
+            if (fabIsHiding) {
+                (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
+            } else {
+                (findViewById(R.id.fabAddToFavs)).setVisibility(View.VISIBLE);
+            }
+        //}
     }
 
     @Override
@@ -166,19 +173,26 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
     }
 
     int oldScrollY = 0;
-
+    int scrollCounter = 0; // Событие срабатывает дважды при создании листвью. Чтобы предотватить срабатывание
+    // считаем итерации обработчика
     @Override
     public void onScrollChanged() {
-        int scrollY = mScrollView.getScrollY();
-        // Если сейчас не идёт анимация
-        if (!nowAnimating && !isFavorite) {
-            if (scrollY > oldScrollY + 2 && !fabIsHiding) {
-                hideFab();
-            } else if (fabIsHiding && scrollY + 2 < oldScrollY) {
-                showFab();
+        if (++scrollCounter>2) {
+            int scrollY = mScrollView.getScrollY();
+            // Если сейчас не идёт анимация
+            if (!nowAnimating && !isFavorite) {
+                if (scrollY > oldScrollY + 2 && !fabIsHiding) {
+                    hideFab();
+                } else if (fabIsHiding && scrollY + 2 < oldScrollY) {
+                    showFab();
+                }
             }
+            Log.d("scrools: ", "y: " + scrollY + "; oldY: " + oldScrollY);
+//        if (mScrollView.getMaxScrollAmount()<=scrollY && !fabIsHiding){
+//            Log.d("dsf", mScrollView.getVer+"; "+scrollY);
+//            hideFab();
+//        }
+            oldScrollY = scrollY;
         }
-
-        oldScrollY = scrollY;
     }
 }
