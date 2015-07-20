@@ -23,5 +23,6 @@ public class Recipe {
         Description = description;
         ShortDescription = shortDescription;
     }
+    public Recipe(){}
 
 }

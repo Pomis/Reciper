@@ -12,11 +12,11 @@ public class Container {
     static public ArrayList<String> selectedContents;
 
 
-    static public void removeDoubles(){
-        for (int i= RecipesList.size()-1; i>=0; i--)
-            for (int j= RecipesList.size()-1; j>=0; j--){
-                if (RecipesList.get(i).equals(RecipesList.get(j))&&i!=j)
-                    RecipesList.remove(i);
+    static public void removeDoubles(ArrayList<Recipe> list){
+        for (int i= list.size()-1; i>=0; i--)
+            for (int j= list.size()-1; j>=0; j--){
+                if (list.get(i).equals(list.get(j))&&i!=j)
+                    list.remove(i);
             }
     }
 
@@ -42,6 +42,49 @@ public class Container {
                 return recipe;
         return null;
 
+    }
+
+    static public void calculateRelevancy(Recipe a, ArrayList<String> list){
+        a.Relevancy=0;
+        for (int i=0; i<a.Contents.size(); i++){
+            for (int j=0; j<list.size(); j++){
+                if (a.Contents.get(i).equals(list.get(j)))
+                    a.Relevancy++;
+            }
+        }
+    }
+
+
+
+    static public void sortByRelevancy(ArrayList<Recipe> list){
+        for(int i = list.size()-1 ; i > 0 ; i--){
+            for(int j = 0 ; j < i ; j++){
+                //  Сравниваем элементы попарно,
+                //  если они имеют неправильный порядок,
+                //  то меняем местами
+                if( list.get(j).Relevancy > list.get(j+1).Relevancy ){
+                    Recipe tmp = list.get(j);
+                    list.set(j,list.get(j+1));
+                    list.set(j+1,tmp);
+                }
+            }
+        }
+    }
+    // Нужны, если ссылки на объекты разные, а названия одинаковые
+    static public boolean checkIfContained(ArrayList<Recipe> list, String recipeName){
+        for (Recipe rep: list)
+            if (recipeName.equals(rep.Name))
+                return true;
+        return false;
+    }
+
+    static public void removeByName(ArrayList<Recipe> list, String recipeName){
+        Recipe recipe = new Recipe();
+        for (Recipe r: list)
+            if (r.Name.equals(recipeName))
+                recipe = r;
+        if (list.contains(recipe))
+            list.remove(recipe);
     }
 }
 

@@ -52,7 +52,7 @@ public class DatabaseInstruments {
                 ")");
     }
 
-    public void makeFavorite(String name, boolean fave){
+    public void updateFave(String name, boolean fave){
         DB.execSQL("UPDATE Recipes " +
                 "SET Favorite="+((fave)?1:0)+" "+
                 "WHERE Name="+quote(name));

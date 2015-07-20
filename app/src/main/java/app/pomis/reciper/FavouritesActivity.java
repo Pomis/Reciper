@@ -1,15 +1,18 @@
 package app.pomis.reciper;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class FavouritesActivity extends ActionBarActivity {
+public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +25,34 @@ public class FavouritesActivity extends ActionBarActivity {
             //setTitleColor(getResources().getColor(R.color.favColorDark));
         }
         setContentView(R.layout.activity_favourites);
+        setTitle("Избранное");
+        refresh();
 
-
-        if (Container.favouriteRecipes != null) {
-            ((ListView) findViewById(R.id.listFavs)).setAdapter(
-                    new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes)
-            );
-        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+
+    void refresh() {
+        if (Container.favouriteRecipes != null) {
+            ListView listView = ((ListView) findViewById(R.id.listFavs));
+            listView.setAdapter(
+                    new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes)
+            );
+            listView.setOnItemClickListener(this);
+
+
+            for (int i = 0; i < Container.favouriteRecipes.size(); i++) {
+                Container.calculateRelevancy(Container.favouriteRecipes.get(i), Container.selectedContents);
+            }
+            Container.sortByRelevancy(Container.favouriteRecipes);
+            Container.removeDoubles(Container.favouriteRecipes);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,5 +74,18 @@ public class FavouritesActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent(this, FullRecipeInfoActivity.class);
+        intent.putExtra("name", Container.favouriteRecipes.get(i).Name);
+        for (int c = 0; c < Container.RecipesList.size(); c++) {
+            if (Container.RecipesList.get(c).Name.equals(Container.favouriteRecipes.get(i).Name)) {
+                intent.putExtra("description", Container.RecipesList.get(c).Description);
+                intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
+            }
+        }
+        startActivity(intent);
     }
 }

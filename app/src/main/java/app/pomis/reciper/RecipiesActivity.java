@@ -77,10 +77,10 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
     public void loadRelevantRecipes(){
         mostRelevantRecipies.clear();
         for (int i=0; i<Container.RecipesList.size(); i++){
-            calculateRelevancy(Container.RecipesList.get(i));
+            Container.calculateRelevancy(Container.RecipesList.get(i), Container.selectedContents);
         }
-        sortByRelevancy();
-        Container.removeDoubles();
+        Container.sortByRelevancy(Container.RecipesList);
+        Container.removeDoubles(Container.RecipesList);
         for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
             if (Container.RecipesList.get(i).Relevancy>0)
             mostRelevantRecipies.add(Container.RecipesList.get(i));
@@ -95,30 +95,6 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
         loaded = true;
     }
 
-    public void calculateRelevancy(Recipe a){
-        a.Relevancy=0;
-        for (int i=0; i<a.Contents.size(); i++){
-            for (int j=0; j<Container.selectedContents.size(); j++){
-                if (a.Contents.get(i).equals(Container.selectedContents.get(j)))
-                    a.Relevancy++;
-            }
-        }
-    }
 
 
-
-    void sortByRelevancy(){
-        for(int i = Container.RecipesList.size()-1 ; i > 0 ; i--){
-            for(int j = 0 ; j < i ; j++){
-            //  Сравниваем элементы попарно,
-            //  если они имеют неправильный порядок,
-            //  то меняем местами
-            if( Container.RecipesList.get(j).Relevancy > Container.RecipesList.get(j+1).Relevancy ){
-                Recipe tmp = Container.RecipesList.get(j);
-                Container.RecipesList.set(j,Container.RecipesList.get(j+1));
-                Container.RecipesList.set(j+1,tmp);
-            }
-        }
-    }
-    }
 }
