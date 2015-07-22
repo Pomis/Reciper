@@ -10,9 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+
+    ArrayAdapter mContentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,9 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
 
     void refresh() {
         if (Container.favouriteRecipes != null) {
+            mContentAdapter = new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes);
             ListView listView = ((ListView) findViewById(R.id.listFavs));
-            listView.setAdapter(
-                    new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes)
-            );
+            listView.setAdapter(mContentAdapter);
             listView.setOnItemClickListener(this);
 
 
@@ -69,10 +71,30 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_clear_favs) {
+            ServerInstruments.getSingleton().decreaseFaveCount(Container.favouriteRecipes);
+            Container.favouriteRecipes.clear();
+            DatabaseInstruments.singleton.clearFaveList();
+            Toast.makeText(this, "Список очищен", Toast.LENGTH_SHORT).show();
             return true;
         }
 
+        // Сортировка по рейтингу (количество добавлений в избранное)
+        if (id == R.id.action_sort_rating) {
+            if (Container.favouriteRecipes != null) {
+                Container.sortByRating(Container.favouriteRecipes);
+                mContentAdapter.notifyDataSetChanged();
+            }
+        }
+
+        // Сортировка по количеству доступных продуктов
+        if (id == R.id.action_sort_contents) {
+            if (Container.favouriteRecipes != null) {
+                Container.sortByRelevancy(Container.favouriteRecipes);
+                mContentAdapter.notifyDataSetChanged();
+            }
+
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -71,6 +71,22 @@ public class Container {
             }
         }
     }
+
+    static public void sortByRating(ArrayList<Recipe> list){
+        for(int i = list.size()-1 ; i > 0 ; i--){
+            for(int j = 0 ; j < i ; j++){
+                //  Сравниваем элементы попарно,
+                //  если они имеют неправильный порядок,
+                //  то меняем местами
+                if( list.get(j).FavoriteCount > list.get(j+1).FavoriteCount ){
+                    Recipe tmp = list.get(j);
+                    list.set(j,list.get(j+1));
+                    list.set(j+1,tmp);
+                }
+            }
+        }
+    }
+
     // Нужны, если ссылки на объекты разные, а названия одинаковые
     static public boolean checkIfContained(ArrayList<Recipe> list, String recipeName){
         for (Recipe rep: list)

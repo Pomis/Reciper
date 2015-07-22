@@ -84,6 +84,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_remove_from_favs) {
+            ServerInstruments.getSingleton().decreaseFaveCount(Container.findRecipeByTitle(getIntent().getExtras().getString("name")).RID);
             Container.removeByName(Container.favouriteRecipes, getIntent().getExtras().getString("name"));
             DatabaseInstruments.singleton.updateFave(getIntent().getExtras().getString("name"), false);
             isFavorite = false;

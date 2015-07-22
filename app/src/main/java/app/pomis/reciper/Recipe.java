@@ -14,6 +14,7 @@ public class Recipe {
     public String ShortDescription;
     public int RID;
     public int Relevancy=0;
+    public int FavoriteCount = 0;
 
     public String getRelevancyString(){
         return Relevancy+"/"+Contents.size()+" продуктов";

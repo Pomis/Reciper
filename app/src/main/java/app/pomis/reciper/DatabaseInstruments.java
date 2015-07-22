@@ -209,6 +209,9 @@ public class DatabaseInstruments {
         return list;
     }
 
+    public void clearFaveList(){
+        DB.execSQL("UPDATE Recipes SET Favorite=0");
+    }
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
