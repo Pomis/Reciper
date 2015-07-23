@@ -111,6 +111,7 @@ public class ContentAdapter extends ArrayAdapter {
             case "Перец болгарский": drawable=getContext().getResources().getDrawable(R.drawable.perecbolgar);break;
             case "Укроп": drawable=getContext().getResources().getDrawable(R.drawable.ooqrop);break;
             case "Мясо": drawable=getContext().getResources().getDrawable(R.drawable.meat);break;
+            case "Сыр": drawable=getContext().getResources().getDrawable(R.drawable.cheese);break;
 
 
 

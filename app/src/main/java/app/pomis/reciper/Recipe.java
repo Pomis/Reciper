@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Recipe {
 
+
     public String Name;
     public ArrayList<String> Contents = new ArrayList<>();
     public String Description;
@@ -15,15 +16,16 @@ public class Recipe {
     public int RID;
     public int Relevancy=0;
     public int FavoriteCount = 0;
-
+    public String KindOfDish;
     public String getRelevancyString(){
         return Relevancy+"/"+Contents.size()+" продуктов";
     }
-    public Recipe (String name, String shortDescription, String description, ArrayList<String> contents, int rid){
+    public Recipe (String name, String shortDescription, String description, ArrayList<String> contents, int rid, String kindOfDish){
         Name = name;
         Contents = contents;
         Description = description;
         ShortDescription = shortDescription;
+        KindOfDish =kindOfDish;
         RID=rid;
     }
     public Recipe(){}

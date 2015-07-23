@@ -6,6 +6,10 @@ import java.util.ArrayList;
  * Created by romanismagilov on 19.05.15.
  */
 public class Container {
+    public enum TypeOfDish{
+        SOUP, DISH, SNACK,
+    }
+
     static public ArrayList<Recipe> RecipesList = new ArrayList<>();
     static public ArrayList<Recipe> favouriteRecipes = new ArrayList<>();
     static public ArrayList<String> allContents = new ArrayList<>();
