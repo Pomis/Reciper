@@ -31,31 +31,36 @@ class RecipeAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-            View rowView = convertView;
-            ViewHolder view;
+        View rowView = convertView;
+        ViewHolder view;
 
-            if (rowView == null) {
-                LayoutInflater inflater = activity.getLayoutInflater();
-                rowView = inflater.inflate(R.layout.recipe_item, null);
+        if (rowView == null) {
+            LayoutInflater inflater = activity.getLayoutInflater();
+            rowView = inflater.inflate(R.layout.recipe_item, null);
 
-                view = new ViewHolder();
-                view.textView = (TextView) rowView.findViewById(R.id.title);
-                view.imageView = (ImageView) rowView.findViewById(R.id.imageView);
-                view.subTitle = (TextView) rowView.findViewById(R.id.subText);
-                view.faveStar = (ImageView) rowView.findViewById(R.id.faveStar);
-                rowView.setTag(view);
+            view = new ViewHolder();
+            view.textView = (TextView) rowView.findViewById(R.id.title);
+            view.imageView = (ImageView) rowView.findViewById(R.id.imageView);
+            view.subTitle = (TextView) rowView.findViewById(R.id.subText);
+            view.faveStar = (ImageView) rowView.findViewById(R.id.faveStar);
+            rowView.setTag(view);
 
-            } else {
-                view = (ViewHolder) rowView.getTag();
-            }
+        } else {
+            view = (ViewHolder) rowView.getTag();
+        }
 
 
-            /** Set data to your Views. */
-            Recipe item = list.get(position);//BackgroundLoader.loadedBooks.get(position);
-            view.textView.setText(item.Name);
+        /** Set data to your Views. */
+        Recipe item = list.get(position);//BackgroundLoader.loadedBooks.get(position);
+        view.textView.setText(item.Name);
 
-            view.subTitle.setText(item.getRelevancyString());
-            // Круголь цветной
+        view.subTitle.setText(item.getRelevancyString());
+
+        switch (item.KindOfDish){
+            case "Суп": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.soup)); break;
+            case "Второе": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dish));break;
+        }
+        // Круголь цветной
 //            Drawable drawable = getResources().getDrawable(R.drawable.circle);
 //            drawable.setColorFilter(Color.parseColor("#" + item.category.colorHex), PorterDuff.Mode.SRC_ATOP);
 //            if (view.imageView != null)
@@ -65,7 +70,7 @@ class RecipeAdapter extends ArrayAdapter {
 //                view.faveStar.setVisibility(View.VISIBLE);
 //                view.faveStar.setImageResource(R.drawable.ic_star_border_black_24dp);
 //            }
-            return rowView;
+        return rowView;
 
     }
 
