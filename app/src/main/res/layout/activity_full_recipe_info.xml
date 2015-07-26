@@ -1,15 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mainColor"
     tools:context="app.pomis.reciper.FullRecipeInfoActivity">
+
     <ScrollView
-        android:layout_width="fill_parent"
         android:id="@+id/fullRecipeScroller"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:fillViewport="true"
-        >
+        android:scrollbars="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,22 +29,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_margin="16dp"
                     android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:text="Ингридиенты"
                     android:textColor="@color/subTitle"
-                    android:text="Ингридиенты" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="false"
-            android:scrollbarSize="0dp"
-            android:id="@+id/Contents"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:background="@drawable/recipe_background"
-            />
+
+            <ListView
+                android:id="@+id/Contents"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recipe_background"
+                android:isScrollContainer="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarSize="0dp" />
 
             <RelativeLayout
 
@@ -53,19 +56,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_margin="16dp"
                     android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:text="Рецепт"
                     android:textColor="@color/subTitle"
-                    android:text="Рецепт" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/full_info_text"
-            android:padding="16dp"
-            android:background="@drawable/recipe_background"
-            android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/full_info_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recipe_background"
+                android:padding="16dp"
+                android:textSize="17dp" />
 
             <RelativeLayout
 
@@ -77,45 +81,63 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_margin="16dp"
                     android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:text="Примечание"
                     android:textColor="@color/subTitle"
-                    android:text="Примечание" />
+                    android:textSize="14sp" />
             </RelativeLayout>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/full_info_title"
-            android:padding="16dp"
-            android:background="@drawable/recipe_background"
-            android:textSize="17dp"/>
 
+            <TextView
+                android:id="@+id/full_info_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recipe_background"
+                android:padding="16dp"
+                android:textSize="17dp" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="-16dp"
+                android:background="@color/mainColor"
+                android:onClick="openInBrowser">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:onClick="openInBrowser"
+                    android:text="Открыть в браузере"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
+            </RelativeLayout>
         </LinearLayout>
+
     </ScrollView>
+
     <RelativeLayout
         android:id="@+id/fabAddToFavs"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:adjustViewBounds="true"
         android:background="@drawable/fba_fav_background"
         android:elevation="4dp"
         android:onClick="addToFavs"
-        android:visibility="visible"
-        android:padding="10dp"
         android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        >
+        android:visibility="visible">
+
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_favorite_border"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            />
-        </RelativeLayout>
+            android:src="@drawable/ic_favorite_border" />
+    </RelativeLayout>
 </RelativeLayout>

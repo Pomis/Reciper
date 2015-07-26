@@ -1,5 +1,8 @@
 package app.pomis.reciper;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -188,12 +191,18 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
                     showFab();
                 }
             }
-            Log.d("scrools: ", "y: " + scrollY + "; oldY: " + oldScrollY);
+            Log.d("scrolls: ", "y: " + scrollY + "; oldY: " + oldScrollY);
 //        if (mScrollView.getMaxScrollAmount()<=scrollY && !fabIsHiding){
 //            Log.d("dsf", mScrollView.getVer+"; "+scrollY);
 //            hideFab();
 //        }
             oldScrollY = scrollY;
         }
+    }
+
+    public void openInBrowser(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(
+                Container.findRecipeByTitle(getIntent().getExtras().getString("name")).Source));
+        startActivity(Intent.createChooser(intent, "Выберите браузер"));
     }
 }

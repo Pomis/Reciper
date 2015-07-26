@@ -1,9 +1,11 @@
 package app.pomis.reciper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,17 +17,32 @@ public class DatabaseInstruments {
 
     DBHelper dbHelper;
     SQLiteDatabase DB;
+    final int CURRENT_DATABASE_VERSION = 1;
+    int PREVIOUS_DATABASE_VERSION = 0;
+    private SharedPreferences preferences;
     static public DatabaseInstruments singleton;
 
     public DatabaseInstruments(Context context) {
         dbHelper = new DBHelper(context);
         DB = dbHelper.getWritableDatabase();
-        createDB();
+
         singleton = this;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // Считываем предыдущую версию бд
+        try {
+            preferences.getInt("dbversion", PREVIOUS_DATABASE_VERSION);
+        } catch (Exception e) {
+        }
+        createDB();
+
     }
 
+
     public void createDB() {
-        DB.execSQL("DROP TABLE IF EXISTS Recipes");
+        if (CURRENT_DATABASE_VERSION > PREVIOUS_DATABASE_VERSION) {
+            DB.execSQL("DROP TABLE IF EXISTS Recipes");
+            preferences.edit().putInt("dbversion", CURRENT_DATABASE_VERSION).apply();
+        }
         DB.execSQL("CREATE TABLE IF NOT EXISTS Recipes" +
                 "(" +
                 "RID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -46,7 +63,7 @@ public class DatabaseInstruments {
     }
 
     public void insertRecipe(String name, String description, String shortDescription, String contents, String source, String kindOfDish) {
-
+//TODO: insert if name not contained
         DB.execSQL("INSERT INTO Recipes(Name, Description, ShortDescription, Contents, Source, KindOfDish) VALUES(" +
                 quote(name) + "," + quote(description) + "," + quote(shortDescription) + "," + quote(contents)
                 + "," + quote(source) + "," + quote(kindOfDish) +
@@ -125,7 +142,7 @@ public class DatabaseInstruments {
                         "Выключаем, если картошка уже сварилась (проверяется легкостью разрезания в супе, а не разгрызанием горячей картошки зубами с ослабевшей студенческой эмалью!). " +
                         "Если не вкусно, намажьте хлеб майонезом и доешьте этот суп, чтобы продукты не жалко было выкидывать.",
                 "Он же полуборщ с яйцами - для кого что важнее",
-                "Картошка,Яйца,Щавель,Лук,Морковь,Масло,Кубик-бульон",
+                "Картофель,Яйца,Щавель,Лук,Морковь,Масло,Кубик-бульон",
                 "http://viol.narod.ru/servis/home/student.htm",
                 "Суп");
         insertRecipe("Картофельный суп", "Картофель очистите, вымойте и нарежьте кубиками.\n" +
@@ -140,7 +157,7 @@ public class DatabaseInstruments {
                         "Добавьте кубики, из расчета 2 кубика на 1 литр воды, добавьте в суп ветчину и дайте закипеть.\n" +
                         "Положите фасоль и дайте супу закипеть.\n" +
                         "Приправьте и посолите, если надо, суп и варите до готовности. Подавайте со сметаной.\n",
-                "Нет описания", "Картофель,Лук,Чеснок,Масло,Лавровый лист,Кубик-бульон,Фасоль,Колбаса,Соль, Чёрный перец,Петрушка,Мускатный орех",
+                "Нет описания", "Картофель,Лук,Чеснок,Масло,Лавровый лист,Кубик-бульон,Фасоль,Колбаса,Соль,Чёрный перец,Петрушка,Мускатный орех",
                 "http://www.kyxapka.com/картофельный-суп/#more-2925",
                 "Суп");
         insertRecipe("Макароны с жареным фаршем", "Репчатый лук очистить и измельчить. Если любите жареный лук кольцами - режьте кольцами.\n" +
@@ -168,7 +185,7 @@ public class DatabaseInstruments {
                         "Вместо фарша можно взять кусочки (филе) курицы. " +
                         "Еще можно добавить немного квашеной капусты и тогда вкус получится еще более насыщенным, еще более интересным. " +
                         "Чем-то, этот рецепт похож и на ленивые голубцы, когда все смешивают вместе и тушат.",
-                "Капуста,Фарш,Лук,Морковь,Рис,Томатный соук,Масло,Соль",
+                "Капуста,Фарш,Лук,Морковь,Рис,Томатный соус,Масло,Соль",
                 "http://www.deshevye-recepty.ru/рецепт/470/тушеная-капуста-с-фаршем-и-рисом",
                 "Второе");
         insertRecipe("Хрустящие котлетки из куриного фарша в духовке без лука",
@@ -203,7 +220,8 @@ public class DatabaseInstruments {
                     cursor.getString(2),
                     new ArrayList<>(Arrays.asList(cursor.getString(3).split(","))),
                     cursor.getInt(0),
-                    cursor.getString(7)
+                    cursor.getString(7),
+                    cursor.getString(5)
             );
             list.add(recipe);
         }
@@ -222,7 +240,8 @@ public class DatabaseInstruments {
                     cursor.getString(2),
                     new ArrayList<>(Arrays.asList(cursor.getString(3).split(","))),
                     cursor.getInt(0),
-                    cursor.getString(7)
+                    cursor.getString(7),
+                    cursor.getString(5)
             );
             list.add(recipe);
         }
