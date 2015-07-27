@@ -2,6 +2,7 @@ package app.pomis.reciper;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 public class FullRecipeInfoActivity extends ActionBarActivity implements Animation.AnimationListener, ViewTreeObserver.OnScrollChangedListener {
 
     ScrollView mScrollView;
+    ListView mListView;
     boolean fabIsHiding = false;
     boolean nowAnimating = false;
     boolean isFavorite = false;
@@ -45,16 +47,19 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
         ((TextView) findViewById(R.id.full_info_text)).setText(getIntent().getExtras().getString("description"));
         ArrayList<String> contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
         final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
-        ((ListView) findViewById(R.id.Contents)).setAdapter(aa);
-        setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
+        mListView = ((ListView) findViewById(R.id.Contents));
+        mListView.setAdapter(aa);
+        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP) {
+            setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
+        }
         setTitle(getIntent().getExtras().getString("name"));
-
         //Скролл
         mScrollView = ((ScrollView) findViewById(R.id.fullRecipeScroller));
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
 
-
     }
+
+
 
 
     public boolean onPrepareOptionsMenu(Menu menu) {
