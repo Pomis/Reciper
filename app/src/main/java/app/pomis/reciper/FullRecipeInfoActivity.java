@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -27,6 +29,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
 
     ScrollView mScrollView;
     ListView mListView;
+    ArrayList<String> contentsList;
     boolean fabIsHiding = false;
     boolean nowAnimating = false;
     boolean isFavorite = false;
@@ -45,21 +48,23 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
         (findViewById(R.id.fabAddToFavs)).bringToFront();
         ((TextView) findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
         ((TextView) findViewById(R.id.full_info_text)).setText(getIntent().getExtras().getString("description"));
-        ArrayList<String> contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
-        final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
-        mListView = ((ListView) findViewById(R.id.Contents));
-        mListView.setAdapter(aa);
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP) {
-            setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
-        }
+        contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
+
+
         setTitle(getIntent().getExtras().getString("name"));
         //Скролл
         mScrollView = ((ScrollView) findViewById(R.id.fullRecipeScroller));
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
+            mListView = ((ListView) findViewById(R.id.Contents));
+            mListView.setAdapter(aa);
+            setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
+            ((TextView)findViewById(R.id.contentsCompat)).setVisibility(View.GONE);
+        } else {
+            drawCustomContentList();
+        }
     }
-
-
 
 
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -134,6 +139,16 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
         listView.requestLayout();
     }
 
+    void drawCustomContentList() {
+        String string = "";
+        for (int i=0; i<contentsList.size(); i++){
+            string+= contentsList.get(i);
+            if (i<contentsList.size()-1)
+                string+=", ";
+        }
+        ((TextView)findViewById(R.id.contentsCompat)).setText(string);
+    }
+
     public void addToFavs(View view) {
         Container.favouriteRecipes.add(Container.findRecipeByTitle(getIntent().getExtras().getString("name")));
         DatabaseInstruments.singleton.updateFave(getIntent().getExtras().getString("name"), true);
@@ -167,12 +182,12 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
     @Override
     public void onAnimationEnd(Animation animation) {
         //if (scrollStarted) {
-            nowAnimating = false;
-            if (fabIsHiding) {
-                (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
-            } else {
-                (findViewById(R.id.fabAddToFavs)).setVisibility(View.VISIBLE);
-            }
+        nowAnimating = false;
+        if (fabIsHiding) {
+            (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
+        } else {
+            (findViewById(R.id.fabAddToFavs)).setVisibility(View.VISIBLE);
+        }
         //}
     }
 
@@ -183,10 +198,11 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
 
     int oldScrollY = 0;
     int scrollCounter = 0; // Событие срабатывает дважды при создании листвью. Чтобы предотватить срабатывание
+
     // считаем итерации обработчика
     @Override
     public void onScrollChanged() {
-        if (++scrollCounter>2) {
+        if (++scrollCounter > 2) {
             int scrollY = mScrollView.getScrollY();
             // Если сейчас не идёт анимация
             if (!nowAnimating && !isFavorite) {

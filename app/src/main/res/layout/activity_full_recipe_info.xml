@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="Ингридиенты"
                     android:textColor="@color/subTitle"
                     android:textSize="14sp" />
@@ -45,6 +45,13 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarSize="0dp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recipe_background"
+                android:id="@+id/contentsCompat"
+                android:padding="16dp"
+                />
 
             <RelativeLayout
 
@@ -57,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="Рецепт"
                     android:textColor="@color/subTitle"
                     android:textSize="14sp" />
@@ -82,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="Примечание"
                     android:textColor="@color/subTitle"
                     android:textSize="14sp" />

@@ -59,6 +59,7 @@ class RecipeAdapter extends ArrayAdapter {
         switch (item.KindOfDish){
             case "Суп": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.soup)); break;
             case "Второе": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dish));break;
+            case "Котлеты": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.kotlets));break;
         }
         // Круголь цветной
 //            Drawable drawable = getResources().getDrawable(R.drawable.circle);
