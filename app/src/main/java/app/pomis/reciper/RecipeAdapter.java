@@ -56,21 +56,14 @@ class RecipeAdapter extends ArrayAdapter {
 
         view.subTitle.setText(item.getRelevancyString());
 
+        //
+        // Иконочки для блюд
+        //
         switch (item.KindOfDish){
             case "Суп": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.soup)); break;
             case "Второе": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dish));break;
             case "Котлеты": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.kotlets));break;
         }
-        // Круголь цветной
-//            Drawable drawable = getResources().getDrawable(R.drawable.circle);
-//            drawable.setColorFilter(Color.parseColor("#" + item.category.colorHex), PorterDuff.Mode.SRC_ATOP);
-//            if (view.imageView != null)
-//                view.imageView.setImageDrawable(drawable);
-//
-//            if (view.faveStar != null && item.fave) {
-//                view.faveStar.setVisibility(View.VISIBLE);
-//                view.faveStar.setImageResource(R.drawable.ic_star_border_black_24dp);
-//            }
         return rowView;
 
     }
