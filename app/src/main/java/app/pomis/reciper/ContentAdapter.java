@@ -109,14 +109,17 @@ public class ContentAdapter extends ArrayAdapter {
             case "Картофель": drawable=getContext().getResources().getDrawable(R.drawable.kartoshka);break;
             case "Морковь": drawable=getContext().getResources().getDrawable(R.drawable.morqov);break;
             case "Перец болгарский": drawable=getContext().getResources().getDrawable(R.drawable.perecbolgar);break;
+            case "Перец чёрный": drawable=getContext().getResources().getDrawable(R.drawable.perecblack);break;
             case "Укроп": drawable=getContext().getResources().getDrawable(R.drawable.ooqrop);break;
             case "Мясо": drawable=getContext().getResources().getDrawable(R.drawable.meat);break;
             case "Сыр": drawable=getContext().getResources().getDrawable(R.drawable.cheese);break;
             case "Капуста": drawable=getContext().getResources().getDrawable(R.drawable.kapoosta);break;
             case "Колбаса": drawable=getContext().getResources().getDrawable(R.drawable.kolbasa);break;
             case "Крабовые палочки": drawable=getContext().getResources().getDrawable(R.drawable.krab);break;
-            case "Бульон-кубик": drawable=getContext().getResources().getDrawable(R.drawable.kubiq);break;
-
+            case "Кубик-бульон": drawable=getContext().getResources().getDrawable(R.drawable.kubiq);break;
+            case "Макароны": drawable=getContext().getResources().getDrawable(R.drawable.makarons);break;
+            case "Молоко": drawable=getContext().getResources().getDrawable(R.drawable.moloko);break;
+            case "Чеснок": drawable=getContext().getResources().getDrawable(R.drawable.chesnoq);break;
             default: drawable=getContext().getResources().getDrawable(R.drawable.product);break;
         }
         return drawable;
