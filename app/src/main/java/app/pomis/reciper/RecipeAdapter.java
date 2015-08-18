@@ -66,6 +66,8 @@ class RecipeAdapter extends ArrayAdapter {
             case "Пирог": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.pirog));break;
             case "Шаурма": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.shawarma));break;
             case "Десерт": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.desert));break;
+            case "Пицца": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.pizza));break;
+
 
         }
         return rowView;

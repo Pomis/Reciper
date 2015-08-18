@@ -78,23 +78,23 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             Toast.makeText(this, "Список очищен", Toast.LENGTH_SHORT).show();
             return true;
         }
-
-        // Сортировка по рейтингу (количество добавлений в избранное)
-        if (id == R.id.action_sort_rating) {
-            if (Container.favouriteRecipes != null) {
-                Container.sortByRating(Container.favouriteRecipes);
-                mContentAdapter.notifyDataSetChanged();
-            }
-        }
-
-        // Сортировка по количеству доступных продуктов
-        if (id == R.id.action_sort_contents) {
-            if (Container.favouriteRecipes != null) {
-                Container.sortByRelevancy(Container.favouriteRecipes);
-                mContentAdapter.notifyDataSetChanged();
-            }
-
-        }
+//
+//        // Сортировка по рейтингу (количество добавлений в избранное)
+//        if (id == R.id.action_sort_rating) {
+//            if (Container.favouriteRecipes != null) {
+//                Container.sortByRating(Container.favouriteRecipes);
+//                mContentAdapter.notifyDataSetChanged();
+//            }
+//        }
+//
+//        // Сортировка по количеству доступных продуктов
+//        if (id == R.id.action_sort_contents) {
+//            if (Container.favouriteRecipes != null) {
+//                Container.sortByRelevancy(Container.favouriteRecipes);
+//                mContentAdapter.notifyDataSetChanged();
+//            }
+//
+//        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -17,7 +17,7 @@ public class DatabaseInstruments {
 
     DBHelper dbHelper;
     SQLiteDatabase DB;
-    final int CURRENT_DATABASE_VERSION = 1;
+    final int CURRENT_DATABASE_VERSION = 2;
     int PREVIOUS_DATABASE_VERSION = 0;
     private SharedPreferences preferences;
     static public DatabaseInstruments singleton;
@@ -248,7 +248,7 @@ public class DatabaseInstruments {
                         "После того как паста приготовилась, выкладываем в нее смесь из грибов и ветчины, добавляем приправы по вкусу и перемешиваем. Блюдо готово.\n" +
                         "Уже в практически готовое блюдо добавляем специи, чтобы вкусу добавить глубину и дополнительные нотки.\n" +
                         "\n",
-                "", "Ветчина,Грибы,Лук,Макароны,Сливки,Чёрный перец,Соль", "http://mistudenti.ru/studencheskij-reczept-pasta-s-vetchinoj-i-gribami.html",
+                "", "Ветчина,Грибы,Лук,Макароны,Сливки,Перец чёрный,Соль", "http://mistudenti.ru/studencheskij-reczept-pasta-s-vetchinoj-i-gribami.html",
                 "Второе");
     }
 

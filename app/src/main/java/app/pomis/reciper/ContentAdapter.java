@@ -120,6 +120,14 @@ public class ContentAdapter extends ArrayAdapter {
             case "Макароны": drawable=getContext().getResources().getDrawable(R.drawable.makarons);break;
             case "Молоко": drawable=getContext().getResources().getDrawable(R.drawable.moloko);break;
             case "Чеснок": drawable=getContext().getResources().getDrawable(R.drawable.chesnoq);break;
+            case "Грибы": drawable=getContext().getResources().getDrawable(R.drawable.gribs);break;
+            case "Сосиски": drawable=getContext().getResources().getDrawable(R.drawable.sosisqa);break;
+
+            case "Горошек": drawable=getContext().getResources().getDrawable(R.drawable.gorokh);break;
+            case "Армянский лаваш": drawable=getContext().getResources().getDrawable(R.drawable.lawash);break;
+            case "Ветчина": drawable=getContext().getResources().getDrawable(R.drawable.vetchina);break;
+            case "Кетчуп": drawable=getContext().getResources().getDrawable(R.drawable.keptuch);break;
+
             default: drawable=getContext().getResources().getDrawable(R.drawable.product);break;
         }
         return drawable;
