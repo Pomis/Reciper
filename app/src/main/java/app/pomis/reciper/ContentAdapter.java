@@ -76,62 +76,17 @@ public class ContentAdapter extends ArrayAdapter {
                 }
                 else{
                     view.imageView.setVisibility(View.VISIBLE);
-                    view.imageView.setImageDrawable(getIcon(item));
+                    view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item)));
                 }
                 break;
 
             case STORE:
                 view.imageView.setVisibility(View.VISIBLE);
-                view.imageView.setImageDrawable(getIcon(item));
+                view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item)));
                 break;
         }
 
         return rowView;
-    }
-    private Drawable getIcon(String icoName){
-        Drawable drawable;
-        switch (icoName){
-            case "Кабачок": drawable=getContext().getResources().getDrawable(R.drawable.kabak);break;
-            case "Лавровый лист": drawable=getContext().getResources().getDrawable(R.drawable.lavr);break;
-            case "Лук": drawable=getContext().getResources().getDrawable(R.drawable.look);break;
-            case "Масло": drawable=getContext().getResources().getDrawable(R.drawable.maslow);break;
-            case "Яйца": drawable=getContext().getResources().getDrawable(R.drawable.egg);break;
-            case "Соль": drawable=getContext().getResources().getDrawable(R.drawable.salt);break;
-            case "Сода": drawable=getContext().getResources().getDrawable(R.drawable.soda);break;
-            case "Мука": drawable=getContext().getResources().getDrawable(R.drawable.mooka);break;
-            case "Огурец": drawable=getContext().getResources().getDrawable(R.drawable.ogurez);break;
-            case "Помидор": drawable=getContext().getResources().getDrawable(R.drawable.pomi);break;
-            case "Сметана": drawable=getContext().getResources().getDrawable(R.drawable.smetana);break;
-            case "Майонез": drawable=getContext().getResources().getDrawable(R.drawable.mayonez);break;
-
-            case "Апельсин": drawable=getContext().getResources().getDrawable(R.drawable.apelsin);break;
-            case "Банан": drawable=getContext().getResources().getDrawable(R.drawable.banan);break;
-            case "Картофель": drawable=getContext().getResources().getDrawable(R.drawable.kartoshka);break;
-            case "Морковь": drawable=getContext().getResources().getDrawable(R.drawable.morqov);break;
-            case "Перец болгарский": drawable=getContext().getResources().getDrawable(R.drawable.perecbolgar);break;
-            case "Перец чёрный": drawable=getContext().getResources().getDrawable(R.drawable.perecblack);break;
-            case "Укроп": drawable=getContext().getResources().getDrawable(R.drawable.ooqrop);break;
-            case "Мясо": drawable=getContext().getResources().getDrawable(R.drawable.meat);break;
-            case "Сыр": drawable=getContext().getResources().getDrawable(R.drawable.cheese);break;
-            case "Капуста": drawable=getContext().getResources().getDrawable(R.drawable.kapoosta);break;
-            case "Колбаса": drawable=getContext().getResources().getDrawable(R.drawable.kolbasa);break;
-            case "Крабовые палочки": drawable=getContext().getResources().getDrawable(R.drawable.krab);break;
-            case "Кубик-бульон": drawable=getContext().getResources().getDrawable(R.drawable.kubiq);break;
-            case "Макароны": drawable=getContext().getResources().getDrawable(R.drawable.makarons);break;
-            case "Молоко": drawable=getContext().getResources().getDrawable(R.drawable.moloko);break;
-            case "Чеснок": drawable=getContext().getResources().getDrawable(R.drawable.chesnoq);break;
-            case "Грибы": drawable=getContext().getResources().getDrawable(R.drawable.gribs);break;
-            case "Сосиски": drawable=getContext().getResources().getDrawable(R.drawable.sosisqa);break;
-
-            case "Горошек": drawable=getContext().getResources().getDrawable(R.drawable.gorokh);break;
-            case "Армянский лаваш": drawable=getContext().getResources().getDrawable(R.drawable.lawash);break;
-            case "Ветчина": drawable=getContext().getResources().getDrawable(R.drawable.vetchina);break;
-            case "Кетчуп": drawable=getContext().getResources().getDrawable(R.drawable.keptuch);break;
-
-            default: drawable=getContext().getResources().getDrawable(R.drawable.product);break;
-        }
-        return drawable;
-
     }
     protected static class ViewHolder {
         protected TextView textView;

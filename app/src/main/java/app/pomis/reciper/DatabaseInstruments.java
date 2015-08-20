@@ -19,7 +19,7 @@ public class DatabaseInstruments {
     SQLiteDatabase DB;
     final int CURRENT_DATABASE_VERSION = 2;
     int PREVIOUS_DATABASE_VERSION = 0;
-    private SharedPreferences preferences;
+    static private SharedPreferences preferences;
     static public DatabaseInstruments singleton;
 
     public DatabaseInstruments(Context context) {
@@ -290,6 +290,28 @@ public class DatabaseInstruments {
         }
         cursor.close();
         return list;
+    }
+
+    static public ArrayList<String> loadWishList() {
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            String string = preferences.getString("wishlist", "");
+            list.addAll(Arrays.asList(string.split(",")));
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<String>();
+        }
+    }
+
+    static public void saveWishList() {
+        Container.removeDoubles(Container.contentsToBeBought);
+        String string = "";
+        for (int i = 0; i < Container.contentsToBeBought.size(); i++) {
+            string += Container.contentsToBeBought.get(i);
+            if (i < Container.contentsToBeBought.size() - 1)
+                string += ",";
+        }
+        preferences.edit().putString("wishlist", string).apply();
     }
 
     public void clearFaveList() {

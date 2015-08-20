@@ -59,17 +59,8 @@ class RecipeAdapter extends ArrayAdapter {
         //
         // Иконочки для блюд
         //
-        switch (item.KindOfDish){
-            case "Суп": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.soup)); break;
-            case "Второе": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dish));break;
-            case "Котлеты": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.kotlets));break;
-            case "Пирог": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.pirog));break;
-            case "Шаурма": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.shawarma));break;
-            case "Десерт": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.desert));break;
-            case "Пицца": view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.pizza));break;
+        view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getDishIconId(item.KindOfDish)));
 
-
-        }
         return rowView;
 
     }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by romanismagilov on 19.05.15.
  */
-public class Recipe {
+public class Recipe implements IFavourite {
 
 
     public String Name;
@@ -37,4 +37,8 @@ public class Recipe {
     public Recipe() {
     }
 
+    @Override
+    public Container.TypeOfFave getTypeOfFave() {
+        return Container.TypeOfFave.RECIPE;
+    }
 }

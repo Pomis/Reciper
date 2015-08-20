@@ -12,10 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     ArrayAdapter mContentAdapter;
+    FaveAdapter mFaveAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,19 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
 
     void refresh() {
         if (Container.favouriteRecipes != null) {
-            mContentAdapter = new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes);
+            //mContentAdapter = new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes);
+            Container.favourites.clear();
+            Container.favourites.add(new ListHeader("Избранные продукты"));
+            Container.favourites.addAll(Container.favouriteRecipes);
+            Container.favourites.add(new ListHeader("Продукты, которые надо купить"));
+            for (String content : Container.contentsToBeBought) {
+                Container.favourites.add(new Content(content));
+            }
+            mFaveAdapter = new FaveAdapter(this, R.layout.recipe_item, Container.favourites);
             ListView listView = ((ListView) findViewById(R.id.listFavs));
-            listView.setAdapter(mContentAdapter);
+            listView.setAdapter(mFaveAdapter);
             listView.setOnItemClickListener(this);
-
+            mFaveAdapter.notifyDataSetChanged();
 
             for (int i = 0; i < Container.favouriteRecipes.size(); i++) {
                 Container.calculateRelevancy(Container.favouriteRecipes.get(i), Container.selectedContents);
@@ -109,5 +120,16 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             }
         }
         startActivity(intent);
+
+        //
+            switch (Container.favourites.get(i).getTypeOfFave()){
+                case CONTENT:
+                    break;
+                case HEADER:
+                    break;
+                case RECIPE:
+                    break;
+            }
+
     }
 }

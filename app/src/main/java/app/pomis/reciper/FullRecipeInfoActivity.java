@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -25,7 +26,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class FullRecipeInfoActivity extends ActionBarActivity implements Animation.AnimationListener, ViewTreeObserver.OnScrollChangedListener {
+public class FullRecipeInfoActivity extends ActionBarActivity
+        implements Animation.AnimationListener,
+        ViewTreeObserver.OnScrollChangedListener,
+        AdapterView.OnItemClickListener {
 
     ScrollView mScrollView;
     ListView mListView;
@@ -59,13 +63,23 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
             final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
             mListView = ((ListView) findViewById(R.id.Contents));
             mListView.setAdapter(aa);
+            mListView.setOnItemClickListener(this);
             setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
             ((TextView)findViewById(R.id.contentsCompat)).setVisibility(View.GONE);
         } else {
             drawCustomContentList();
         }
     }
-
+            //
+                // Нажатие на продукт
+                    // дабы
+                        // добавить в список покупок
+    @Override               //
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Container.contentsToBeBought.add(contentsList.get(i));
+        Container.removeDoubles(Container.contentsToBeBought);
+        DatabaseInstruments.saveWishList();
+    }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isFavorite) {
@@ -226,4 +240,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity implements Animati
                 Container.findRecipeByTitle(getIntent().getExtras().getString("name")).Source));
         startActivity(Intent.createChooser(intent, "Выберите браузер"));
     }
+
+
+
 }

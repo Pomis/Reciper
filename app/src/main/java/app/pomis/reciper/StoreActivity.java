@@ -57,6 +57,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setSubtitle(getComment());
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
+        Container.contentsToBeBought=DatabaseInstruments.loadWishList();
 
     }
 

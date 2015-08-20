@@ -13,14 +13,18 @@ public class Container {
         SOUP, DISH, SNACK,
     }
 
+    public enum TypeOfFave{
+        CONTENT, HEADER, RECIPE
+    }
     static public ArrayList<Recipe> RecipesList = new ArrayList<>();
     static public ArrayList<Recipe> favouriteRecipes = new ArrayList<>();
     static public ArrayList<String> allContents = new ArrayList<>();
     static public ArrayList<String> selectedContents;
     static public ArrayList<String> addingContents = new ArrayList<>();
+    static public ArrayList<String> contentsToBeBought = new ArrayList<>();
+    static public ArrayList<IFavourite> favourites = new ArrayList<>();
 
-
-    static public void removeDoubles(ArrayList<Recipe> list){
+    static public <T> void removeDoubles(ArrayList<T> list){
         for (int i= list.size()-1; i>=0; i--)
             for (int j= list.size()-1; j>=0; j--){
                 if (list.get(i).equals(list.get(j))&&i!=j)
