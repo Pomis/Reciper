@@ -30,7 +30,7 @@ public class DatabaseInstruments {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         // Считываем предыдущую версию бд
         try {
-            preferences.getInt("dbversion", PREVIOUS_DATABASE_VERSION);
+            PREVIOUS_DATABASE_VERSION = preferences.getInt("dbversion", PREVIOUS_DATABASE_VERSION);
         } catch (Exception e) {
         }
         createDB();

@@ -4,6 +4,8 @@
     <color name="mainColorDark">#ff1e6128</color>
     <color name="favColor">#af509a</color>
     <color name="favColorDark">#702d61</color>
+    <color name="searchColor">#FAFAFA</color>
+    <color name="searchColorDark">#BDBDBD</color>
     <color name="cardBackground">#fff4f4f4</color>
     <color name="title">#202020</color>
     <color name="subTitle">#727272</color>

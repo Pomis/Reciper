@@ -1,5 +1,8 @@
 package app.pomis.reciper;
 
+import android.support.annotation.Nullable;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -47,6 +50,13 @@ public class Container {
                 return recipe;
         return null;
 
+    }
+
+    static public int getId(String title, ArrayList<String> array){
+        for (int i = 0; i<array.size(); i++)
+            if (array.get(i).equals(title))
+                return i;
+        return -1;
     }
 
     static public void calculateRelevancy(Recipe a, ArrayList<String> list){

@@ -3,9 +3,11 @@
     android:layout_height="match_parent"
     tools:context=".ContentSelector">
 
+
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
         android:isScrollContainer="true"
         android:id="@+id/StoreSelectorLV"
         />
@@ -35,4 +37,62 @@
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fba_background"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:id="@+id/alphaIndexerLayout"
+        android:visibility="gone">
+        <TextView
+            android:gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textColor="#ffffff"
+            android:layout_margin="30dp"
+            android:textSize="30dp"
+            android:text="A"
+            android:id="@+id/alphaIndexer"/>
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/mainColor"
+        android:layout_alignParentTop="true"
+        android:layout_height="@dimen/abc_action_bar_default_height_material">
+        <android.support.v7.widget.SearchView
+
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:gravity="end"
+            android:visibility="gone"
+            android:paddingLeft="-16dp"
+            android:id="@+id/searchView"
+            >
+
+        </android.support.v7.widget.SearchView>
+
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/searchButton"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:onClick="openSearch"
+        >
+        <ImageButton
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_search_white_24dp"
+            android:onClick="openSearch"
+            />
+    </RelativeLayout>
 </RelativeLayout>
