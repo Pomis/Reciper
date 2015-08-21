@@ -250,6 +250,7 @@ public class DatabaseInstruments {
                         "\n",
                 "", "Ветчина,Грибы,Лук,Макароны,Сливки,Перец чёрный,Соль", "http://mistudenti.ru/studencheskij-reczept-pasta-s-vetchinoj-i-gribami.html",
                 "Второе");
+
     }
 
     public ArrayList<Recipe> loadBasicRecipes() {

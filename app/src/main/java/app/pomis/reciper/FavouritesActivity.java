@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-    ArrayAdapter mContentAdapter;
+    //ArrayAdapter mContentAdapter;
     FaveAdapter mFaveAdapter;
 
     @Override
@@ -47,9 +48,13 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         if (Container.favouriteRecipes != null) {
             //mContentAdapter = new RecipeAdapter(this, R.layout.recipe_item, Container.favouriteRecipes);
             Container.favourites.clear();
-            Container.favourites.add(new ListHeader("Избранные продукты"));
+            Container.favourites.add(new ListHeader((Container.favouriteRecipes.size() > 0) ?
+                    "Избранные рецепты" : "Избранных рецептов нет"));
+
             Container.favourites.addAll(Container.favouriteRecipes);
-            Container.favourites.add(new ListHeader("Продукты, которые надо купить"));
+            Container.favourites.add(new ListHeader((Container.contentsToBeBought.size() > 0) ?
+                    "Продукты, которые надо купить" : "Список продуктов, которые нужно купить, пуст"));
+
             for (String content : Container.contentsToBeBought) {
                 Container.favourites.add(new Content(content));
             }
@@ -109,27 +114,36 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         return super.onOptionsItemSelected(item);
     }
 
+    Toast toast;
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, FullRecipeInfoActivity.class);
-        intent.putExtra("name", Container.favouriteRecipes.get(i).Name);
-        for (int c = 0; c < Container.RecipesList.size(); c++) {
-            if (Container.RecipesList.get(c).Name.equals(Container.favouriteRecipes.get(i).Name)) {
-                intent.putExtra("description", Container.RecipesList.get(c).Description);
-                intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
-            }
+        if (toast!=null) toast.cancel();
+        switch (Container.favourites.get(i).getTypeOfFave()) {
+            case CONTENT:
+                toast = Toast.makeText(this, "Продукт " + ((Content) Container.favourites.get(i)).content + " убран из списка покупок", Toast.LENGTH_SHORT);
+                String removingContent = ((Content) Container.favourites.get(i)).content;
+                Container.contentsToBeBought.remove(removingContent);
+                Container.favourites.remove(i);
+                mFaveAdapter.notifyDataSetChanged();
+                toast.show();
+                DatabaseInstruments.saveWishList();
+                if (Container.contentsToBeBought.size() == 0)
+                    break;
+            case HEADER:
+                break;
+            case RECIPE:
+                Intent intent = new Intent(this, FullRecipeInfoActivity.class);
+                intent.putExtra("name", ((Recipe) Container.favourites.get(i)).Name);
+                for (int c = 0; c < Container.RecipesList.size(); c++) {
+                    if (Container.RecipesList.get(c).Name.equals(((Recipe) Container.favourites.get(i)).Name)) {
+                        intent.putExtra("description", Container.RecipesList.get(c).Description);
+                        intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
+                    }
+                }
+                startActivity(intent);
+                break;
         }
-        startActivity(intent);
-
-        //
-            switch (Container.favourites.get(i).getTypeOfFave()){
-                case CONTENT:
-                    break;
-                case HEADER:
-                    break;
-                case RECIPE:
-                    break;
-            }
 
     }
 }

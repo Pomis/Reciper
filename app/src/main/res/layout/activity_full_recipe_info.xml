@@ -35,23 +35,15 @@
                     android:textColor="@color/subTitle"
                     android:textSize="14sp" />
             </RelativeLayout>
-
-            <ListView
-                android:id="@+id/Contents"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/recipe_background"
-                android:isScrollContainer="false"
+                android:visibility="gone"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:scrollbarSize="0dp" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:background="@drawable/recipe_background"
-                android:id="@+id/contentsCompat"
-                android:padding="16dp"
-                />
+                android:orientation="vertical"
+                android:id="@+id/preKitkatList"/>
 
             <RelativeLayout
 

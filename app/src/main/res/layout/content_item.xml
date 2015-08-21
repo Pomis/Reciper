@@ -17,4 +17,8 @@
         android:background="@drawable/ic_done"
         android:id="@+id/rowImage"
         android:visibility="invisible"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/headerColor"/>
 </RelativeLayout>

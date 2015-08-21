@@ -1,5 +1,6 @@
 package app.pomis.reciper;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class FullRecipeInfoActivity extends ActionBarActivity
@@ -59,16 +62,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
         //Скролл
         mScrollView = ((ScrollView) findViewById(R.id.fullRecipeScroller));
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final ContentAdapter aa = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
-            mListView = ((ListView) findViewById(R.id.Contents));
-            mListView.setAdapter(aa);
-            mListView.setOnItemClickListener(this);
-            setListViewHeightBasedOnChildren((ListView) findViewById(R.id.Contents));
-            ((TextView)findViewById(R.id.contentsCompat)).setVisibility(View.GONE);
-        } else {
-            drawCustomContentList();
-        }
+        drawCustomContentList();
     }
             //
                 // Нажатие на продукт
@@ -79,6 +73,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
         Container.contentsToBeBought.add(contentsList.get(i));
         Container.removeDoubles(Container.contentsToBeBought);
         DatabaseInstruments.saveWishList();
+        Toast.makeText(this, "Продукт добавлен в список покупок", Toast.LENGTH_SHORT).show();
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -154,13 +149,24 @@ public class FullRecipeInfoActivity extends ActionBarActivity
     }
 
     void drawCustomContentList() {
-        String string = "";
+        ((LinearLayout)findViewById(R.id.preKitkatList)).setVisibility(View.VISIBLE);
+        LayoutInflater inflater = this.getLayoutInflater();
+        ContentAdapter adapter = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
         for (int i=0; i<contentsList.size(); i++){
-            string+= contentsList.get(i);
-            if (i<contentsList.size()-1)
-                string+=", ";
+            final int index = i;
+            final FullRecipeInfoActivity context = this;
+            View view = adapter.getView(i, null, ((LinearLayout)findViewById(R.id.preKitkatList)));
+            ((LinearLayout)findViewById(R.id.preKitkatList)).addView(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "Продукт "+contentsList.get(index)+" добавлен в список покупок", Toast.LENGTH_SHORT).show();
+                    Container.contentsToBeBought.add(contentsList.get(index));
+                    Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
+                    DatabaseInstruments.saveWishList();
+                }
+            });
         }
-        ((TextView)findViewById(R.id.contentsCompat)).setText(string);
     }
 
     public void addToFavs(View view) {

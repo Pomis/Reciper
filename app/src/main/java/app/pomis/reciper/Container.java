@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by romanismagilov on 19.05.15.
@@ -30,6 +31,7 @@ public class Container {
                 if (list.get(i).equals(list.get(j))&&i!=j)
                     list.remove(i);
             }
+
     }
 
     static public ArrayList<String> findContentsByTitle(String title){
