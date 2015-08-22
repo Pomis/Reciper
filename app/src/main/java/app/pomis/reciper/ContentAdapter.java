@@ -64,6 +64,11 @@ public class ContentAdapter extends ArrayAdapter {
             case RECIPE:
                 if (Container.checkIfContains(list.get(position)))
                     view.imageView.setVisibility(View.VISIBLE);
+                else if (Container.contentsToBeBought.contains(list.get(position))){
+                    ((ImageView) rowView.findViewById(R.id.rowImageCart)).setVisibility(View.VISIBLE);
+
+                    //view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_shopping_cart_black_24dp));
+                }
                 else
                     view.imageView.setVisibility(View.INVISIBLE);
                 break;

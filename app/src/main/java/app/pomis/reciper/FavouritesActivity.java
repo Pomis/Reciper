@@ -1,6 +1,7 @@
 package app.pomis.reciper;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,7 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 
 public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
@@ -55,9 +60,10 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             Container.favourites.add(new ListHeader((Container.contentsToBeBought.size() > 0) ?
                     "Продукты, которые надо купить" : "Список продуктов, которые нужно купить, пуст"));
 
-            for (String content : Container.contentsToBeBought) {
-                Container.favourites.add(new Content(content));
-            }
+            for (String content : Container.contentsToBeBought)
+                if (content.length()>0)
+                    Container.favourites.add(new Content(content));
+
             mFaveAdapter = new FaveAdapter(this, R.layout.recipe_item, Container.favourites);
             ListView listView = ((ListView) findViewById(R.id.listFavs));
             listView.setAdapter(mFaveAdapter);
@@ -92,6 +98,14 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             Container.favouriteRecipes.clear();
             DatabaseInstruments.singleton.clearFaveList();
             Toast.makeText(this, "Список очищен", Toast.LENGTH_SHORT).show();
+            refresh();
+            return true;
+        }
+        if (id==R.id.action_clear_contents){
+            Container.contentsToBeBought.clear();
+            DatabaseInstruments.saveWishList();
+            Toast.makeText(this, "Список очищен", Toast.LENGTH_SHORT).show();
+            refresh();
             return true;
         }
 //
@@ -121,15 +135,51 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         if (toast!=null) toast.cancel();
         switch (Container.favourites.get(i).getTypeOfFave()) {
             case CONTENT:
-                toast = Toast.makeText(this, "Продукт " + ((Content) Container.favourites.get(i)).content + " убран из списка покупок", Toast.LENGTH_SHORT);
-                String removingContent = ((Content) Container.favourites.get(i)).content;
-                Container.contentsToBeBought.remove(removingContent);
-                Container.favourites.remove(i);
-                mFaveAdapter.notifyDataSetChanged();
-                toast.show();
-                DatabaseInstruments.saveWishList();
-                if (Container.contentsToBeBought.size() == 0)
+                final int index= i;
+                final FavouritesActivity context = this;
+                new MaterialDialog.Builder(this)
+                        .title(((Content) Container.favourites.get(i)).content)
+                        .content("Продукт будет удалён из списка покупок. Переместить его в \"Мои продукты\"?")
+                        .positiveText("Да")
+                        .neutralText("Нет")
+                        .neutralColorAttr(Color.parseColor("#ffffff"))
+                        .positiveColorRes(R.color.favColor)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onNeutral(MaterialDialog dialog) {
+                                super.onNeutral(dialog);
+                                toast = Toast.makeText(context, "Продукт " + ((Content) Container.favourites.get(index)).content + " убран из списка покупок", Toast.LENGTH_SHORT);
+                                String removingContent = ((Content) Container.favourites.get(index)).content;
+                                Container.contentsToBeBought.remove(removingContent);
+                                Container.favourites.remove(index);
+                                mFaveAdapter.notifyDataSetChanged();
+                                toast.show();
+                                DatabaseInstruments.saveWishList();
+                                StoreActivity.instance.RefreshList();
+                                //if (Container.contentsToBeBought.size() == 0)
+                            }
+
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                super.onPositive(dialog);
+                                toast = Toast.makeText(context, "Продукт "
+                                        + ((Content) Container.favourites.get(index)).content +
+                                        " убран из списка покупок и добавлен в \"Мои продукты\"", Toast.LENGTH_SHORT);
+                                String removingContent = ((Content) Container.favourites.get(index)).content;
+                                if (!Container.selectedContents.contains(removingContent))
+                                    Container.selectedContents.add(removingContent);
+                                //Container.selectedContents = new ArrayList<>(new HashSet<>(Container.selectedContents));
+                                Container.contentsToBeBought.remove(removingContent);
+                                Container.favourites.remove(index);
+                                mFaveAdapter.notifyDataSetChanged();
+                                toast.show();
+                                DatabaseInstruments.saveWishList();
+                                StoreActivity.instance.RefreshList();
+                            }
+                        }).show();
+
                     break;
+
             case HEADER:
                 break;
             case RECIPE:

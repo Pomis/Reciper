@@ -3,4 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context="app.pomis.reciper.FullRecipeInfoActivity">
     <item android:id="@+id/action_remove_from_favs" android:title="Убрать из избранного"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_favs"
+        android:icon="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+        android:title="Избранное"
+        android:showAsAction="always"
+        />
 </menu>

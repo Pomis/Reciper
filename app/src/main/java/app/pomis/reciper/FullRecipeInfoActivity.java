@@ -64,10 +64,11 @@ public class FullRecipeInfoActivity extends ActionBarActivity
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
         drawCustomContentList();
     }
-            //
-                // Нажатие на продукт
-                    // дабы
-                        // добавить в список покупок
+
+    //
+    // Нажатие на продукт
+    // дабы
+    // добавить в список покупок
     @Override               //
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Container.contentsToBeBought.add(contentsList.get(i));
@@ -113,6 +114,11 @@ public class FullRecipeInfoActivity extends ActionBarActivity
             return true;
         }
 
+        if (id == R.id.action_favs) {
+            Intent intent = new Intent(this, FavouritesActivity.class);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -148,22 +154,42 @@ public class FullRecipeInfoActivity extends ActionBarActivity
         listView.requestLayout();
     }
 
+    static public ArrayList<View> viewList;
+
     void drawCustomContentList() {
-        ((LinearLayout)findViewById(R.id.preKitkatList)).setVisibility(View.VISIBLE);
+        viewList = new ArrayList<>();
+        ((LinearLayout) findViewById(R.id.preKitkatList)).setVisibility(View.VISIBLE);
         LayoutInflater inflater = this.getLayoutInflater();
         ContentAdapter adapter = new ContentAdapter(ContentAdapter.Mode.RECIPE, this, R.layout.content_item, contentsList, null);
-        for (int i=0; i<contentsList.size(); i++){
+        for (int i = 0; i < contentsList.size(); i++) {
             final int index = i;
             final FullRecipeInfoActivity context = this;
-            View view = adapter.getView(i, null, ((LinearLayout)findViewById(R.id.preKitkatList)));
-            ((LinearLayout)findViewById(R.id.preKitkatList)).addView(view);
+            View view = adapter.getView(i, null, ((LinearLayout) findViewById(R.id.preKitkatList)));
+            ((LinearLayout) findViewById(R.id.preKitkatList)).addView(view);
+            viewList.add(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "Продукт "+contentsList.get(index)+" добавлен в список покупок", Toast.LENGTH_SHORT).show();
-                    Container.contentsToBeBought.add(contentsList.get(index));
-                    Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
-                    DatabaseInstruments.saveWishList();
+                    //((ImageView)FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImage))
+                    //      .setImageDrawable(getResources().getDrawable(R.drawable.ic_shopping_cart_black_24dp));
+                    if (Container.selectedContents.contains(contentsList.get(index))) {
+
+                    } else if (!Container.contentsToBeBought.contains(contentsList.get(index))) {
+                        ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
+                                .setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Продукт " + contentsList.get(index) + " добавлен в список покупок", Toast.LENGTH_SHORT).show();
+                        Container.contentsToBeBought.add(contentsList.get(index));
+                        Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
+                        DatabaseInstruments.saveWishList();
+                    } else{
+                        ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
+                                .setVisibility(View.INVISIBLE);
+                        Toast.makeText(context, "Продукт " + contentsList.get(index) + " убран из в списка покупок", Toast.LENGTH_SHORT).show();
+                        Container.contentsToBeBought.remove(contentsList.get(index));
+                        Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
+                        DatabaseInstruments.saveWishList();
+                    }
+
                 }
             });
         }
@@ -246,7 +272,6 @@ public class FullRecipeInfoActivity extends ActionBarActivity
                 Container.findRecipeByTitle(getIntent().getExtras().getString("name")).Source));
         startActivity(Intent.createChooser(intent, "Выберите браузер"));
     }
-
 
 
 }

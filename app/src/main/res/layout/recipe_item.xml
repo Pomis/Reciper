@@ -41,7 +41,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:id="@+id/faveStar"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="16dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

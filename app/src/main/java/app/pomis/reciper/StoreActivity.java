@@ -29,7 +29,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     Animation animation;
     Toast mToast;
     //boolean fabIsHiding = false;
-
+    static public StoreActivity instance;
     public static ArrayList<String> selectedContents = new ArrayList<>();
 
     @Override
@@ -38,7 +38,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         setContentView(R.layout.activity_store);
         dbi = new DatabaseInstruments(this);
         tinydb = new TinyDB(this);
-
+        instance = this;
         // Массив
         mListView = (ListView) findViewById(R.id.StoreLV);
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
@@ -60,6 +60,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         Container.contentsToBeBought=DatabaseInstruments.loadWishList();
 
     }
+
 
     public String getComment() {
         if (selectedContents.size() == 0)
@@ -105,8 +106,10 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     @Override
     protected void onResume() {
         super.onResume();
+        instance = this;
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
         refreshTip();
+        RefreshList();
         toolbar.setSubtitle(getComment());
     }
 

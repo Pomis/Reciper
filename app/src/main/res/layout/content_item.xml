@@ -6,17 +6,29 @@
     android:layout_width="fill_parent"
     android:layout_height="25dp"
     android:textSize="17dp"
+    android:textColor="@color/title"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:id="@+id/rowContent">
 </TextView>
+
     <ImageView
+        android:id="@+id/rowImage"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:layout_centerVertical="true"
+
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_done"
-        android:id="@+id/rowImage"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+    <ImageView
+        android:id="@+id/rowImageCart"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_shopping_cart_black_24dp"
+        android:visibility="invisible" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="1dp"

@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/recipe_background"
                 android:padding="16dp"
+                android:textColor="@color/title"
                 android:textSize="17dp" />
 
             <RelativeLayout
@@ -93,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/recipe_background"
                 android:padding="16dp"
+                android:textColor="@color/title"
                 android:textSize="17dp" />
 
             <RelativeLayout

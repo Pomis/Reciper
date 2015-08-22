@@ -53,9 +53,11 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        if (id == R.id.action_favs) {
+            Intent intent = new Intent(this, FavouritesActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
