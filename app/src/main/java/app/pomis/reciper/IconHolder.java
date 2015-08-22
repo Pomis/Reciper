@@ -55,6 +55,17 @@ public class IconHolder {
             case "Армянский лаваш": return R.drawable.lawash;
             case "Ветчина": return R.drawable.vetchina;
             case "Кетчуп": return R.drawable.keptuch;
+            case "Сахар": return R.drawable.sakhar;
+            case "Пельмени": return R.drawable.pelmesh;
+            case "Зелень": return R.drawable.ooqrop;
+            case "Баклажан": return R.drawable.baqlajan;
+            case "Курица": return R.drawable.kooritza;
+            case "Петрушка": return R.drawable.petr;
+
+
+
+
+
 
             default: return R.drawable.product;
         }

@@ -35,6 +35,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
     static public ArrayList<String> allContents = new ArrayList<>();
     static public ArrayList<String> notAddedContents = new ArrayList<>();
     static public ArrayList<Integer> searchResults = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,9 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         // Массив
         mListView = (ListView) findViewById(R.id.StoreSelectorLV);
         mListView.setFastScrollEnabled(true);
-        mListView.setFastScrollAlwaysVisible(true);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+            mListView.setFastScrollAlwaysVisible(true);
+        }
         mListView.setOnScrollListener(new CustomScrollListener(this));
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,9 +133,10 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         finish();
     }
 
-    public void scrollTo(int i){
+    public void scrollTo(int i) {
         mListView.smoothScrollToPosition(i);
     }
+
     public void openSearch(View view) {
         final SearchView searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setVisibility(View.VISIBLE);
@@ -148,10 +152,10 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchResults.clear();
-                for (String content: notAddedContents)
+                for (String content : notAddedContents)
                     if (content.toLowerCase().contains(newText.toLowerCase()))
-                        searchResults.add(Container.getId(content,notAddedContents));
-                if (searchResults.size()>0)
+                        searchResults.add(Container.getId(content, notAddedContents));
+                if (searchResults.size() > 0)
                     ContentSelector.instance.scrollTo(searchResults.get(0));
                 return false;
             }
