@@ -15,8 +15,10 @@ public class IconHolder {
             case "Шаурма": return R.drawable.shawarma;
             case "Десерт": return R.drawable.desert;
             case "Пицца": return R.drawable.pizza;
+            case "Рулеты" : return R.drawable.roolet;
+            case "Бутерброды" : return R.drawable.booter;
+            default: return R.drawable.defdish;
         }
-        return 0;
     }
 
     static public int getContentIconId(String icoName){
@@ -61,6 +63,10 @@ public class IconHolder {
             case "Баклажан": return R.drawable.baqlajan;
             case "Курица": return R.drawable.kooritza;
             case "Петрушка": return R.drawable.petr;
+            case "Ром или коньяк": return R.drawable.rom;
+            case "Щавель": return R.drawable.shavel;
+            case "Рис": return R.drawable.ris;
+
 
 
 
