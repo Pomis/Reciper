@@ -66,7 +66,7 @@ public class IconHolder {
             case "Ром или коньяк": return R.drawable.rom;
             case "Щавель": return R.drawable.shavel;
             case "Рис": return R.drawable.ris;
-
+            case "Хлеб": return R.drawable.khleb;
 
 
 

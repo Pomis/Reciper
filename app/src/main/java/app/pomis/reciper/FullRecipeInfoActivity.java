@@ -184,7 +184,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
                     } else{
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.INVISIBLE);
-                        Toast.makeText(context, "Продукт " + contentsList.get(index) + " убран из в списка покупок", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Продукт " + contentsList.get(index) + " убран из списка покупок", Toast.LENGTH_SHORT).show();
                         Container.contentsToBeBought.remove(contentsList.get(index));
                         Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
                         DatabaseInstruments.saveWishList();
