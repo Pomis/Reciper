@@ -43,9 +43,25 @@
             android:layout_centerHorizontal="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/ic_favorite_border"
-            android:src="@drawable/ic_favorite_border"
+            android:background="@drawable/ic_heart_white_24dp"
             android:onClick="openFavs"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="56dp"
+        android:onClick="openAbout"
+        >
+        <ImageButton
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_help_circle_white_24dp"
+            android:onClick="openAbout"
             />
     </RelativeLayout>
     <ListView

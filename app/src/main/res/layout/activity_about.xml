@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="app.pomis.reciper.AboutActivity">
+
+    <ImageView
+        android:id="@+id/splash"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginRight="40dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/reciper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/splash"
+        android:layout_centerHorizontal="true"
+        android:text="Reciper"
+        android:textColor="@color/title"
+        android:textSize="30dp"
+        android:textIsSelectable="true"/>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/reciper"
+        android:layout_marginTop="36dp"
+        android:text="Рецепты для студента. Версия 1.4"
+        android:textIsSelectable="true"
+        android:textColor="@color/subTitle" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/version"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        android:text="pomis172@gmail.com"
+        android:textColor="@color/subTitle" />
+</RelativeLayout>

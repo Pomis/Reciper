@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class StoreActivity extends Activity implements AdapterView.OnItemClickListener {
+public class StoreActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     boolean sharedPrefsAreLoaded = false;
 
@@ -44,6 +44,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
 
         mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(this);
         saveSharedPrefs();
 
         Container.favouriteRecipes = dbi.loadFaves();
@@ -57,23 +58,30 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setSubtitle(getComment());
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
-        Container.contentsToBeBought=DatabaseInstruments.loadWishList();
+        Container.contentsToBeBought = DatabaseInstruments.loadWishList();
 
     }
 
 
     public String getComment() {
+        String val="";
         if (selectedContents.size() == 0)
-            return "Что-то совсем пусто...";
+            val= "Что-то совсем пусто...";
         if (selectedContents.size() > 0 && selectedContents.size() < 4)
-            return "Маловато продуктов, надо бы побольше";
+            val= "Маловато продуктов, надо бы побольше";
         if (selectedContents.size() >= 4 && selectedContents.size() <= 6)
-            return "Хм, из этого можно что-то сделать";
+            val= "Хм, из этого можно что-то сделать";
         if (selectedContents.size() > 6)
-            return "Сколько продуктов то!";
+            val= "Как много еды!";
         if (selectedContents.size() == 11)
-            return "Вы точно студент?";
-        return "";
+            val= "Вы точно студент?";
+        if (selectedContents.contains("Апельсин")&&selectedContents.contains("Банан")&&selectedContents.contains("Яблоко"))
+            val= "Фруктовый магнат!";
+        if (selectedContents.contains("Мясо")&&selectedContents.contains("Тушёнка")&&selectedContents.contains("Курица"))
+            val= "Откуда столько мяса?";
+        if (selectedContents.contains("Армянский лаваш"))
+            val= "Шаурмастер!";
+        return val;
     }
 
     @Override
@@ -85,9 +93,16 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (mToast!=null)
+        mToast = Toast.makeText(this, "Долгое нажатие удалит продукт", Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (mToast != null)
             mToast.cancel();
-        mToast=Toast.makeText(this, "Продукт " + selectedContents.get(i) + " убран из списка", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this, "Продукт " + selectedContents.get(i) + " убран из списка", Toast.LENGTH_SHORT);
         mToast.show();
 
         selectedContents.remove(i);
@@ -95,6 +110,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         saveSharedPrefs();
         refreshTip();
         toolbar.setSubtitle(getComment());
+        return false;
     }
 
     @Override
@@ -125,14 +141,14 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         ((TextView) findViewById(R.id.tipNext)).setText("");
 
         if (Container.selectedContents.size() > minLength) {
-            if ((findViewById(R.id.fabNext)).getVisibility()==View.INVISIBLE)
+            if ((findViewById(R.id.fabNext)).getVisibility() == View.INVISIBLE)
                 showFab();//(findViewById(R.id.fabNext)).setVisibility(View.VISIBLE);
             if (Container.selectedContents.size() < maxLength) {
                 ((TextView) findViewById(R.id.tipNext)).setText("Подобрать рецепты");
                 ((TextView) findViewById(R.id.tip)).setText("Добавить продукты");
             }
         } else {
-            if ((findViewById(R.id.fabNext)).getVisibility()==View.VISIBLE)
+            if ((findViewById(R.id.fabNext)).getVisibility() == View.VISIBLE)
                 hideFab();//(findViewById(R.id.fabNext)).setVisibility(View.INVISIBLE);
         }
 
@@ -245,4 +261,10 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     public void openFavs(View view) {
         startActivity(new Intent(this, FavouritesActivity.class));
     }
+
+    public void openAbout(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
 }

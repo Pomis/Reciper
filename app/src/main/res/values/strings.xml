@@ -3,8 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_recipies">Рецепты</string>
+    <string name="title_activity_recipies">Подходящие рецепты</string>
     <string name="title_activity_content_selector">Добавить продукт</string>
     <string name="title_activity_full_recipe_info">FullRecipeInfo</string>
     <string name="title_activity_favourites">FavouritesActivity</string>
+    <string name="title_activity_about">О приложении</string>
 </resources>

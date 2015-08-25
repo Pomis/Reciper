@@ -108,6 +108,11 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             refresh();
             return true;
         }
+        if (id==R.id.action_about){
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+            return true;
+        }
 //
 //        // Сортировка по рейтингу (количество добавлений в избранное)
 //        if (id == R.id.action_sort_rating) {

@@ -70,9 +70,6 @@ public class IconHolder {
 
 
 
-
-
-
             default: return R.drawable.product;
         }
     }
