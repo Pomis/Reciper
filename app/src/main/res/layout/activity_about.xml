@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="app.pomis.reciper.AboutActivity">
 
     <ImageView
@@ -13,7 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="-40dp"
         android:layout_marginRight="40dp"
         android:src="@drawable/logo" />
 
@@ -51,4 +46,28 @@
         android:textIsSelectable="true"
         android:text="pomis172@gmail.com"
         android:textColor="@color/subTitle" />
+
+    <RelativeLayout
+        android:id="@+id/fabAddToFavs"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/fba_fav_background"
+        android:elevation="4dp"
+        android:onClick="openGooglePlay"
+        android:scaleType="fitCenter"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_favorite_border" />
+    </RelativeLayout>
 </RelativeLayout>

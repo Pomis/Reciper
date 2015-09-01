@@ -9,5 +9,28 @@
         android:id="@+id/listFavs">
 
         </ListView>
-
+    <RelativeLayout
+        android:id="@+id/fab"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/fba_background"
+        android:padding="10dp"
+        android:elevation="4dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:onClick="addContent"
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_add"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
 </RelativeLayout>

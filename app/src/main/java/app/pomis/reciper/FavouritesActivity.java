@@ -201,4 +201,8 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         }
 
     }
+
+    public void addContent(View view) {
+
+    }
 }

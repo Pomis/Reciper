@@ -88,8 +88,9 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
         }
         Container.sortByRelevancy(Container.RecipesList);
         Container.removeDoubles(Container.RecipesList);
-        for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
-            if (Container.RecipesList.get(i).Relevancy>0)
+        //for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
+        for (int i=Container.RecipesList.size()-1; i>=0; i--){
+            //if (Container.RecipesList.get(i).Relevancy>0)
             mostRelevantRecipies.add(Container.RecipesList.get(i));
         }
 

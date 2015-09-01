@@ -33,7 +33,7 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/imageView"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_marginRight="32dp"/>
+        android:layout_marginRight="80dp"/>
 
     <ImageView
         android:layout_width="24dp"
@@ -59,6 +59,21 @@
         android:layout_alignStart="@+id/title"
         android:layout_marginRight="16dp"
         android:paddingBottom="8dp"/>
+
+    <TextView
+        android:text="15 мин."
+        android:id="@+id/time"
+        android:textColor="@color/subTitle"
+        android:textSize="14sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        />
 
 
 </RelativeLayout>

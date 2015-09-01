@@ -17,6 +17,8 @@ public class IconHolder {
             case "Пицца": return R.drawable.pizza;
             case "Рулеты" : return R.drawable.roolet;
             case "Бутерброды" : return R.drawable.booter;
+            case "Пельмени" : return R.drawable.pelmenidish;
+
             default: return R.drawable.defdish;
         }
     }
@@ -67,6 +69,10 @@ public class IconHolder {
             case "Щавель": return R.drawable.shavel;
             case "Рис": return R.drawable.ris;
             case "Хлеб": return R.drawable.khleb;
+            case "Яблоко": return R.drawable.yablo;
+            case "Фарш": return R.drawable.farsh;
+            case "Тушёнка": return R.drawable.tooshenqa;
+            case "Гречка": return R.drawable.grecha;
 
 
 

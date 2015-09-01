@@ -18,13 +18,13 @@ public class Recipe implements IFavourite {
     public int Relevancy = 0;
     public int FavoriteCount = 0;
     public String KindOfDish;
-
+    public int time;
     public String getRelevancyString() {
         return Relevancy + "/" + Contents.size() + " продуктов";
     }
 
     public Recipe(String name, String shortDescription, String description, ArrayList<String> contents, int rid, String kindOfDish,
-                  String source) {
+                  String source, int time) {
         Name = name;
         Contents = contents;
         Description = description;
@@ -32,6 +32,7 @@ public class Recipe implements IFavourite {
         KindOfDish = kindOfDish;
         RID = rid;
         Source = source;
+        this.time = time;
     }
 
     public Recipe() {

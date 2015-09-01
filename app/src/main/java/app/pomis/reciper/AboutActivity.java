@@ -1,9 +1,12 @@
 package app.pomis.reciper;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class AboutActivity extends ActionBarActivity {
@@ -30,5 +33,14 @@ public class AboutActivity extends ActionBarActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openGooglePlay(View view) {
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
     }
 }

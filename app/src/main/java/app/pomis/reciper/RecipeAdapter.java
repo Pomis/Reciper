@@ -43,6 +43,7 @@ class RecipeAdapter extends ArrayAdapter {
             view.imageView = (ImageView) rowView.findViewById(R.id.imageView);
             view.subTitle = (TextView) rowView.findViewById(R.id.subText);
             view.faveStar = (ImageView) rowView.findViewById(R.id.faveStar);
+            view.timeView = (TextView) rowView.findViewById(R.id.time);
             rowView.setTag(view);
 
         } else {
@@ -60,7 +61,7 @@ class RecipeAdapter extends ArrayAdapter {
         // Иконочки для блюд
         //
         view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getDishIconId(item.KindOfDish)));
-
+        view.timeView.setText(item.time+" мин.");
         return rowView;
 
     }
@@ -69,7 +70,7 @@ class RecipeAdapter extends ArrayAdapter {
         protected TextView textView;
         protected ImageView imageView;
         protected TextView subTitle;
-        protected TextView sizeView;
+        protected TextView timeView;
         protected ImageView faveStar;
     }
 }
