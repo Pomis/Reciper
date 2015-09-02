@@ -207,7 +207,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
     public void addContent(View view) {
         new MaterialDialog.Builder(this)
                 .title("Что ещё купить?")
-                .inputType(InputType.TYPE_CLASS_TEXT)
+                .inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                 .input("Название продукта", "", new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {

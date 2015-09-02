@@ -66,13 +66,14 @@ public class Container {
     }
 
     static public void calculateRelevancy(Recipe a, ArrayList<String> list){
-        a.Relevancy=0;
+        a.havingContentsCount=0;
         for (int i=0; i<a.Contents.size(); i++){
             for (int j=0; j<list.size(); j++){
                 if (a.Contents.get(i).equals(list.get(j)))
-                    a.Relevancy++;
+                    a.havingContentsCount++;
             }
         }
+        a.Relevancy = a.havingContentsCount/(float)a.Contents.size();
     }
 
 
