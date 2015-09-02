@@ -19,6 +19,7 @@ public class Recipe implements IFavourite {
     public int FavoriteCount = 0;
     public String KindOfDish;
     public int time;
+
     public String getRelevancyString() {
         return Relevancy + "/" + Contents.size() + " продуктов";
     }

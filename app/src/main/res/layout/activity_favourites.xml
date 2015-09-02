@@ -18,7 +18,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/fba_background"
+        android:background="@drawable/fba_fav_background"
         android:padding="10dp"
         android:elevation="4dp"
         android:scaleType="fitCenter"

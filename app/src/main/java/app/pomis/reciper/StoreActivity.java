@@ -54,6 +54,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         refreshTip();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         toolbar.setTitle("Мои продукты");
         toolbar.setSubtitle(getComment());
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
@@ -64,24 +65,24 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
 
 
     public String getComment() {
-        String val="";
+        String val = "";
 
         if (selectedContents.size() >= 4 && selectedContents.size() <= 6)
-            val= "Хм, из этого можно что-то сделать";
+            val = "Хм, из этого можно что-то сделать";
         if (selectedContents.size() > 6)
-            val= "Как много еды!";
+            val = "Как много еды!";
         if (selectedContents.size() == 11)
-            val= "Вы точно студент?";
-        if (selectedContents.contains("Апельсин")&&selectedContents.contains("Банан")&&selectedContents.contains("Яблоко"))
-            val= "Фруктовый магнат!";
-        if (selectedContents.contains("Мясо")&&selectedContents.contains("Тушёнка")&&selectedContents.contains("Курица"))
-            val= "Откуда столько мяса?";
+            val = "Вы точно студент?";
+        if (selectedContents.contains("Апельсин") && selectedContents.contains("Банан") && selectedContents.contains("Яблоко"))
+            val = "Фруктовый магнат!";
+        if (selectedContents.contains("Мясо") && selectedContents.contains("Тушёнка") && selectedContents.contains("Курица"))
+            val = "Откуда столько мяса?";
         if (selectedContents.contains("Армянский лаваш"))
-            val= "Шаурмастер!";
+            val = "Шаурмастер!";
         if (selectedContents.size() == 0)
-            val= "Что-то совсем пусто...";
+            val = "Что-то совсем пусто...";
         if (selectedContents.size() > 0 && selectedContents.size() < 4)
-            val= "Маловато продуктов, надо бы побольше";
+            val = "Маловато продуктов, надо бы побольше";
         return val;
     }
 
@@ -92,10 +93,16 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         return true;
     }
 
+    boolean longClicked = false;
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        mToast = Toast.makeText(this, "Долгое нажатие удалит продукт", Toast.LENGTH_SHORT);
-        mToast.show();
+        if (longClicked) {
+        } else {
+            mToast = Toast.makeText(this, "Долгое нажатие удалит продукт", Toast.LENGTH_SHORT);
+            mToast.show();
+        }
+        longClicked = false;
     }
 
 
@@ -103,7 +110,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (mToast != null)
             mToast.cancel();
-        mToast = Toast.makeText(this, "Продукт " + selectedContents.get(i) + " убран из списка", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this, selectedContents.get(i) + " убран"+WordEndings.getFor(selectedContents.get(i))+" из списка", Toast.LENGTH_SHORT);
         mToast.show();
 
         selectedContents.remove(i);
@@ -111,6 +118,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         saveSharedPrefs();
         refreshTip();
         toolbar.setSubtitle(getComment());
+        longClicked = true;
         return false;
     }
 

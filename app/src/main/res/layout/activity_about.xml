@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/reciper"
         android:layout_marginTop="36dp"
-        android:text="Рецепты для студента. Версия 1.4"
+        android:text="Рецепты для студента. Версия 1.5"
         android:textIsSelectable="true"
         android:textColor="@color/subTitle" />
 

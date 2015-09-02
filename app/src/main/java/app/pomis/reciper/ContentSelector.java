@@ -3,11 +3,9 @@ package app.pomis.reciper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +31,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
     Toolbar toolbar;
     static public ContentSelector instance;
     static public ArrayList<String> allContents = new ArrayList<>();
-    static public ArrayList<String> notAddedContents = new ArrayList<>();
+    static public ArrayList<String> selectorList = new ArrayList<>();
     static public ArrayList<Integer> searchResults = new ArrayList<>();
 
     @Override
@@ -62,15 +60,27 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         mListView.setOnScrollListener(new CustomScrollListener(this));
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Добавить продукты");
+        if (getIntent().getExtras()!=null && getIntent().getExtras().getString("title") != null) {
+
+            toolbar.setTitle(getIntent().getExtras().getString("title"));
+            for (String str : allContents)
+                if (!Container.contentsToBeBought.contains(str))
+                    selectorList.add(str);
+            mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
+                    this, R.layout.content_item_tall, selectorList, Container.addingContents);
+        }
+        else {
+            toolbar.setTitle("Добавить продукты");
+            for (String str : allContents)
+                if (!Container.selectedContents.contains(str))
+                    selectorList.add(str);
+            mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
+                    this, R.layout.content_item_tall, selectorList, Container.addingContents);
+        }
         toolbar.setTitleTextColor(getResources().getColor(R.color.searchColor));
         //if (!sharedPrefsAreLoaded) loadSharedPrefs();
 
-        for (String str : allContents)
-            if (!Container.selectedContents.contains(str))
-                notAddedContents.add(str);
-        mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
-                this, R.layout.content_item_tall, notAddedContents, Container.addingContents);
+
         mListView.setAdapter(mListAdapter);
         mListView.setOnItemClickListener(this);
 
@@ -101,15 +111,15 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
     @Override
     protected void onPause() {
         super.onPause();
-        notAddedContents.clear();
+        selectorList.clear();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (!Container.addingContents.contains(notAddedContents.get(i))) {
-            Container.addingContents.add(notAddedContents.get(i));
+        if (!Container.addingContents.contains(selectorList.get(i))) {
+            Container.addingContents.add(selectorList.get(i));
         } else {
-            Container.addingContents.remove(notAddedContents.get(i));
+            Container.addingContents.remove(selectorList.get(i));
         }
         mListAdapter.notifyDataSetChanged();
 
@@ -152,9 +162,9 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchResults.clear();
-                for (String content : notAddedContents)
+                for (String content : selectorList)
                     if (content.toLowerCase().contains(newText.toLowerCase()))
-                        searchResults.add(Container.getId(content, notAddedContents));
+                        searchResults.add(Container.getId(content, selectorList));
                 if (searchResults.size() > 0)
                     ContentSelector.instance.scrollTo(searchResults.get(0));
                 return false;
@@ -261,9 +271,9 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
                 if (stateField != null) {
                     mState = stateField.getInt(mFastScroller);
                     //Log.d("scroll", "fast: " + firstVisibleItem);
-                    if (ContentSelector.notAddedContents != null) {
+                    if (ContentSelector.selectorList != null) {
                         ((TextView) context.findViewById(R.id.alphaIndexer))
-                                .setText(ContentSelector.notAddedContents.get(firstVisibleItem).substring(0, 1));
+                                .setText(ContentSelector.selectorList.get(firstVisibleItem).substring(0, 1));
                     }
                 }
             } catch (IllegalAccessException e) {

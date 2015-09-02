@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +32,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setTheme(R.style.FavsTheme);
         if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.favColorDark));
+            //getWindow().setNavigationBarColor(getResources().getColor(R.color.favColorDark));
             getWindow().setStatusBarColor(getResources().getColor(R.color.favColorDark));
 
             //setTitleColor(getResources().getColor(R.color.favColorDark));
@@ -202,7 +203,41 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
 
     }
 
+    // Добавить продукты в список покупок
     public void addContent(View view) {
+        new MaterialDialog.Builder(this)
+                .title("Что ещё купить?")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("Название продукта", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        Container.contentsToBeBought.add(input.toString());
+                        refresh();
+                    }
+                })
+                .neutralText("Выбрать из списка")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        super.onNeutral(dialog);
+                        Intent intent = new Intent(getWindow().getContext(), ContentSelector.class);
+                        intent.putExtra("title", "Что ещё купить?");
+                        startActivityForResult(intent, 666);
+                    }
+                })
+                .show();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 666) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<String> myValue = data.getStringArrayListExtra("test");
+                if (!Container.contentsToBeBought.contains(myValue)) Container.contentsToBeBought.addAll(myValue);
+                refresh();
+                DatabaseInstruments.saveWishList();
+                Container.addingContents.clear();
+            }
+        }
     }
 }
