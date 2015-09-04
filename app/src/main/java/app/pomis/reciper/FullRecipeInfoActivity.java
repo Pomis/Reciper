@@ -1,10 +1,7 @@
 package app.pomis.reciper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +34,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
     Toast mToast;
     ScrollView mScrollView;
     ListView mListView;
-    ArrayList<String> contentsList;
+    ArrayList<Content> contentsList;
     boolean fabIsHiding = false;
     boolean nowAnimating = false;
     boolean isFavorite = false;
@@ -63,7 +60,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
             ((TextView) findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
         }
 
-        contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
+        contentsList = Container.findContentsByRecipeTitle(getIntent().getExtras().getString("name"));
 
 
         setTitle(getIntent().getExtras().getString("name"));
@@ -190,18 +187,18 @@ public class FullRecipeInfoActivity extends ActionBarActivity
                     } else if (!Container.contentsToBeBought.contains(contentsList.get(index))) {
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.VISIBLE);
-                        mToast = Toast.makeText(context, contentsList.get(index) + " добавлен" + WordEndings.getFor(contentsList.get(index)) + " в список покупок", Toast.LENGTH_SHORT);
+                        mToast = Toast.makeText(context, contentsList.get(index).content + " добавлен" + WordEndings.getFor(contentsList.get(index).content) + " в список покупок", Toast.LENGTH_SHORT);
                         mToast.show();
                         Container.contentsToBeBought.add(contentsList.get(index));
-                        Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
+                        Container.contentsToBeBought = new ArrayList<>(new HashSet<Content>(Container.contentsToBeBought));
                         DatabaseInstruments.saveWishList();
                     } else {
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.INVISIBLE);
-                        mToast = Toast.makeText(context, contentsList.get(index) + " убран" + WordEndings.getFor(contentsList.get(index)) + " из списка покупок", Toast.LENGTH_SHORT);
+                        mToast = Toast.makeText(context, contentsList.get(index).content + " убран" + WordEndings.getFor(contentsList.get(index).content) + " из списка покупок", Toast.LENGTH_SHORT);
                         mToast.show();
                         Container.contentsToBeBought.remove(contentsList.get(index));
-                        Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
+                        Container.contentsToBeBought = new ArrayList<>(new HashSet<Content>(Container.contentsToBeBought));
                         DatabaseInstruments.saveWishList();
                     }
 

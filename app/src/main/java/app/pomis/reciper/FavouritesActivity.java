@@ -61,9 +61,9 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
             Container.favourites.add(new ListHeader((Container.contentsToBeBought.size() > 0) ?
                     "Список покупок" : "Список покупок пуст"));
 
-            for (String content : Container.contentsToBeBought)
-                if (content.length()>0)
-                    Container.favourites.add(new Content(content));
+            for (Content c : Container.contentsToBeBought)
+                if (c.content.length()>0)
+                    Container.favourites.add(c);
 
             mFaveAdapter = new FaveAdapter(this, R.layout.recipe_item, Container.favourites);
             ListView listView = ((ListView) findViewById(R.id.listFavs));
@@ -171,7 +171,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
                                 toast = Toast.makeText(context, "Продукт "
                                         + ((Content) Container.favourites.get(index)).content +
                                         " убран из списка покупок и добавлен в \"Мои продукты\"", Toast.LENGTH_SHORT);
-                                String removingContent = ((Content) Container.favourites.get(index)).content;
+                                Content removingContent = (Content) Container.favourites.get(index);
                                 if (!Container.selectedContents.contains(removingContent))
                                     Container.selectedContents.add(removingContent);
                                 //Container.selectedContents = new ArrayList<>(new HashSet<>(Container.selectedContents));
@@ -211,7 +211,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
                 .input("Название продукта", "", new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        Container.contentsToBeBought.add(input.toString());
+                        Container.contentsToBeBought.add(new Content(input.toString()));
                         refresh();
                         DatabaseInstruments.saveWishList();
                     }
@@ -233,7 +233,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 666) {
             if (resultCode == RESULT_OK) {
-                ArrayList<String> myValue = data.getStringArrayListExtra("test");
+                ArrayList<Content> myValue = Content.contentListFrom(data.getStringArrayListExtra("test"));
                 if (!Container.contentsToBeBought.contains(myValue)) Container.contentsToBeBought.addAll(myValue);
                 refresh();
                 DatabaseInstruments.saveWishList();

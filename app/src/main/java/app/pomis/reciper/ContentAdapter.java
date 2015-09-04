@@ -2,6 +2,7 @@ package app.pomis.reciper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public class ContentAdapter extends ArrayAdapter {
     private final Activity activity;
-    private final List<String> list;
-    private List<String> selection = null;
+    private final List<Content> list;
+    private List<Content> selection = null;
     private int resource;
     private Mode mode;
 
@@ -57,16 +58,15 @@ public class ContentAdapter extends ArrayAdapter {
         }
 
         /** Set data to your Views. */
-        String item = list.get(position);
-        view.textView.setText(item);
+        Content item = list.get(position);
+        view.textView.setText(item.content);
 
         switch (mode) {
             case RECIPE:
                 if (Container.checkIfContains(list.get(position)))
                     view.imageView.setVisibility(View.VISIBLE);
-                else if (Container.contentsToBeBought.contains(list.get(position))){
+                else if (Container.checkIfContained(list.get(position).content,Container.contentsToBeBought)){
                     ((ImageView) rowView.findViewById(R.id.rowImageCart)).setVisibility(View.VISIBLE);
-
                     //view.imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_shopping_cart_black_24dp));
                 }
                 else
@@ -74,6 +74,8 @@ public class ContentAdapter extends ArrayAdapter {
 
                 if (position == 0)
                     rowView.findViewById(R.id.border).setVisibility(View.INVISIBLE);
+                if (list.get(position).isMajor)
+                    view.textView.setTypeface(null, Typeface.BOLD);
                 break;
 
             case SELECTOR:
@@ -84,13 +86,13 @@ public class ContentAdapter extends ArrayAdapter {
                 }
                 else{
                     view.imageView.setVisibility(View.VISIBLE);
-                    view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item)));
+                    view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item.content)));
                 }
                 break;
 
             case STORE:
                 view.imageView.setVisibility(View.VISIBLE);
-                view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item)));
+                view.imageView.setImageDrawable(getContext().getResources().getDrawable(IconHolder.getContentIconId(item.content)));
                 break;
         }
 

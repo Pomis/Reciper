@@ -25,13 +25,13 @@ import java.util.HashSet;
 
 public class ContentSelector extends Activity implements AdapterView.OnItemClickListener {
 
-    public ArrayAdapter<String> mListAdapter;
+    public ArrayAdapter<Content> mListAdapter;
     public ListView mListView;
     TinyDB tinydb;
     Toolbar toolbar;
     static public ContentSelector instance;
-    static public ArrayList<String> allContents = new ArrayList<>();
-    static public ArrayList<String> selectorList = new ArrayList<>();
+    static public ArrayList<Content> allContents = new ArrayList<>();
+    static public ArrayList<Content> selectorList = new ArrayList<>();
     static public ArrayList<Integer> searchResults = new ArrayList<>();
 
     @Override
@@ -63,7 +63,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         if (getIntent().getExtras()!=null && getIntent().getExtras().getString("title") != null) {
 
             toolbar.setTitle(getIntent().getExtras().getString("title"));
-            for (String str : allContents)
+            for (Content str : allContents)
                 if (!Container.contentsToBeBought.contains(str))
                     selectorList.add(str);
             mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
@@ -71,8 +71,8 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         }
         else {
             toolbar.setTitle("Добавить продукты");
-            for (String str : allContents)
-                if (!Container.selectedContents.contains(str))
+            for (Content str : allContents)
+                if (!Container.checkIfContained(str.content,Container.selectedContents))
                     selectorList.add(str);
             mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
                     this, R.layout.content_item_tall, selectorList, Container.addingContents);
@@ -129,16 +129,17 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
             findViewById(R.id.fab_add_selected).setVisibility(View.INVISIBLE);
     }
 
-    public ArrayList<String> DelDubl(ArrayList<String> array) {
-        ArrayList<String> result = new ArrayList<String>(new HashSet<String>(array));
-        Collections.sort(result);
+    public ArrayList<Content> DelDubl(ArrayList<Content> array) {
+        ArrayList<String> stringArrayList = new ArrayList<String>(new HashSet<String>(Content.stringListFrom(array)));
+        ArrayList<Content> result = Content.contentListFrom(stringArrayList);
+        Collections.sort(result, new ContentComparator());
         //System.out.println(result);
         return result;
     }
 
     public void addSelected(View view) {
         Intent resultData = new Intent();
-        resultData.putExtra("test", Container.addingContents);
+        resultData.putExtra("test", Content.stringListFrom(Container.addingContents));
         setResult(Activity.RESULT_OK, resultData);
         finish();
     }
@@ -162,9 +163,9 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchResults.clear();
-                for (String content : selectorList)
-                    if (content.toLowerCase().contains(newText.toLowerCase()))
-                        searchResults.add(Container.getId(content, selectorList));
+                for (Content c : selectorList)
+                    if (c.content.toLowerCase().contains(newText.toLowerCase()))
+                        searchResults.add(Container.getId(c.content, selectorList));
                 if (searchResults.size() > 0)
                     ContentSelector.instance.scrollTo(searchResults.get(0));
                 return false;
@@ -273,7 +274,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
                     //Log.d("scroll", "fast: " + firstVisibleItem);
                     if (ContentSelector.selectorList != null) {
                         ((TextView) context.findViewById(R.id.alphaIndexer))
-                                .setText(ContentSelector.selectorList.get(firstVisibleItem).substring(0, 1));
+                                .setText(ContentSelector.selectorList.get(firstVisibleItem).content.substring(0, 1));
                     }
                 }
             } catch (IllegalAccessException e) {

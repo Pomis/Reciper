@@ -10,7 +10,7 @@ public class Recipe implements IFavourite {
 
 
     public String Name;
-    public ArrayList<String> Contents = new ArrayList<>();
+    public ArrayList<Content> Contents = new ArrayList<>();
     public String Description;
     public String ShortDescription;
     public String Source;
@@ -25,7 +25,7 @@ public class Recipe implements IFavourite {
         return havingContentsCount + "/" + Contents.size() + " продуктов";
     }
 
-    public Recipe(String name, String shortDescription, String description, ArrayList<String> contents, int rid, String kindOfDish,
+    public Recipe(String name, String shortDescription, String description, ArrayList<Content> contents, int rid, String kindOfDish,
                   String source, int time) {
         Name = name;
         Contents = contents;

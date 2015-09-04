@@ -30,7 +30,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     Toast mToast;
     //boolean fabIsHiding = false;
     static public StoreActivity instance;
-    public static ArrayList<String> selectedContents = new ArrayList<>();
+    public static ArrayList<Content> selectedContents = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (mToast != null)
             mToast.cancel();
-        mToast = Toast.makeText(this, selectedContents.get(i) + " убран"+WordEndings.getFor(selectedContents.get(i))+" из списка", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this, selectedContents.get(i).content + " убран"+WordEndings.getFor(selectedContents.get(i).content)+" из списка", Toast.LENGTH_SHORT);
         mToast.show();
 
         selectedContents.remove(i);
@@ -215,11 +215,11 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     }
 
     void saveSharedPrefs() {
-        tinydb.putListString("selectedContents", selectedContents);
+        tinydb.putListString("selectedContents", Content.stringListFrom(selectedContents));
     }
 
     void loadSharedPrefs() {
-        selectedContents = tinydb.getListString("selectedContents");
+        selectedContents = Content.contentListFrom(tinydb.getListString("selectedContents"));
         sharedPrefsAreLoaded = true;
     }
 
@@ -230,13 +230,13 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         startActivityForResult(new Intent(this, ContentSelector.class), REQUEST_ID);
     }
 
-    ArrayList<String> myValue;
+    ArrayList<Content> myValue;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ID) {
             if (resultCode == RESULT_OK) {
-                myValue = data.getStringArrayListExtra("test");
+                myValue = Content.contentListFrom(data.getStringArrayListExtra("test"));
                 if (!selectedContents.contains(myValue)) selectedContents.addAll(myValue);
                 saveSharedPrefs();
                 RefreshList();
