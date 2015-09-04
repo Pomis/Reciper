@@ -76,6 +76,7 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:id="@+id/full_info_title_layout"
                 android:background="@color/headerColor">
 
                 <TextView
@@ -110,7 +111,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="16dp"
                     android:onClick="openInBrowser"
-                    android:text="Открыть в браузере"
+                    android:text="Открыть источник в браузере"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
             </RelativeLayout>

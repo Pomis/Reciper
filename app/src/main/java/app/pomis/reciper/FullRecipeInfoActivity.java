@@ -54,8 +54,15 @@ public class FullRecipeInfoActivity extends ActionBarActivity
             (findViewById(R.id.fabAddToFavs)).setVisibility(View.INVISIBLE);
         }
         (findViewById(R.id.fabAddToFavs)).bringToFront();
-        ((TextView) findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
         ((TextView) findViewById(R.id.full_info_text)).setText(getIntent().getExtras().getString("description"));
+
+        if (getIntent().getExtras().getString("short_description") == null || getIntent().getExtras().getString("short_description").length() == 0) {
+            findViewById(R.id.full_info_title).setVisibility(View.GONE);
+            findViewById(R.id.full_info_title_layout).setVisibility(View.GONE);
+        }else{
+            ((TextView) findViewById(R.id.full_info_title)).setText(getIntent().getExtras().getString("short_description"));
+        }
+
         contentsList = Container.findContentsByTitle(getIntent().getExtras().getString("name"));
 
 
@@ -121,7 +128,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
             return true;
         }
 
-        if (id==R.id.action_about){
+        if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             return true;
@@ -177,21 +184,21 @@ public class FullRecipeInfoActivity extends ActionBarActivity
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mToast!=null) mToast.cancel();
+                    if (mToast != null) mToast.cancel();
                     if (Container.selectedContents.contains(contentsList.get(index))) {
 
                     } else if (!Container.contentsToBeBought.contains(contentsList.get(index))) {
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.VISIBLE);
-                        mToast = Toast.makeText(context, contentsList.get(index) + " добавлен"+WordEndings.getFor(contentsList.get(index))+" в список покупок", Toast.LENGTH_SHORT);
+                        mToast = Toast.makeText(context, contentsList.get(index) + " добавлен" + WordEndings.getFor(contentsList.get(index)) + " в список покупок", Toast.LENGTH_SHORT);
                         mToast.show();
                         Container.contentsToBeBought.add(contentsList.get(index));
                         Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));
                         DatabaseInstruments.saveWishList();
-                    } else{
+                    } else {
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.INVISIBLE);
-                        mToast = Toast.makeText(context, contentsList.get(index) + " убран"+WordEndings.getFor(contentsList.get(index))+" из списка покупок", Toast.LENGTH_SHORT);
+                        mToast = Toast.makeText(context, contentsList.get(index) + " убран" + WordEndings.getFor(contentsList.get(index)) + " из списка покупок", Toast.LENGTH_SHORT);
                         mToast.show();
                         Container.contentsToBeBought.remove(contentsList.get(index));
                         Container.contentsToBeBought = new ArrayList<String>(new HashSet<String>(Container.contentsToBeBought));

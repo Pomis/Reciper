@@ -13,4 +13,5 @@ public class Content implements IFavourite {
     public Content(String c){
         content = c;
     }
+
 }

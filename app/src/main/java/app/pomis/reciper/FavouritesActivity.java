@@ -59,7 +59,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
 
             Container.favourites.addAll(Container.favouriteRecipes);
             Container.favourites.add(new ListHeader((Container.contentsToBeBought.size() > 0) ?
-                    "Продукты, которые надо купить" : "Список продуктов, которые нужно купить, пуст"));
+                    "Список покупок" : "Список покупок пуст"));
 
             for (String content : Container.contentsToBeBought)
                 if (content.length()>0)
@@ -213,6 +213,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         Container.contentsToBeBought.add(input.toString());
                         refresh();
+                        DatabaseInstruments.saveWishList();
                     }
                 })
                 .neutralText("Выбрать из списка")

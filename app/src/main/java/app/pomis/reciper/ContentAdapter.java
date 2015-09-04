@@ -71,6 +71,9 @@ public class ContentAdapter extends ArrayAdapter {
                 }
                 else
                     view.imageView.setVisibility(View.INVISIBLE);
+
+                if (position == 0)
+                    rowView.findViewById(R.id.border).setVisibility(View.INVISIBLE);
                 break;
 
             case SELECTOR:
