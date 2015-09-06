@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by romanismagilov on 19.05.15.
  */
-public class Recipe implements IFavourite {
+public class Recipe implements IListItem {
 
 
     public String Name;
@@ -25,6 +25,9 @@ public class Recipe implements IFavourite {
         return havingContentsCount + "/" + Contents.size() + " продуктов";
     }
 
+    public String getName(){
+        return Name;
+    }
     public Recipe(String name, String shortDescription, String description, ArrayList<Content> contents, int rid, String kindOfDish,
                   String source, int time) {
         Name = name;

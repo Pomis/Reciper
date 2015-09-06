@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by romanismagilov on 20.08.15.
  */
-public class Content implements IFavourite {
+public class Content implements IListItem {
 
     @Override
     public Container.TypeOfFave getTypeOfFave() {
@@ -18,6 +18,10 @@ public class Content implements IFavourite {
         content = c;
     }
     public Content(String c, boolean major) { content = c; isMajor = major; }
+
+    public String getName(){
+        return content;
+    }
 
     static public ArrayList<Content> contentListFrom(List<String> stringList){
         ArrayList<Content> contentList = new ArrayList<>();

@@ -15,10 +15,10 @@ import java.util.ArrayList;
  * Created by romanismagilov on 20.08.15.
  */
 public class FaveAdapter extends ArrayAdapter {
-    ArrayList<IFavourite> faveList;
+    ArrayList<IListItem> faveList;
     Activity context;
 
-    public FaveAdapter(Context context, int resource, ArrayList<IFavourite> faveList) {
+    public FaveAdapter(Context context, int resource, ArrayList<IListItem> faveList) {
         super(context, resource, faveList);
         this.faveList = faveList;
         this.context = (Activity) context;

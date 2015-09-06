@@ -45,6 +45,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         super.onResume();
         instance = this;
         allContents.clear();
+        Container.addingContents.clear();
         for (int i = 0; i < Container.RecipesList.size(); i++)
             for (int j = 0; j < Container.RecipesList.get(i).Contents.size(); j++) {
                 allContents.add(Container.RecipesList.get(i).Contents.get(j));
@@ -72,7 +73,7 @@ public class ContentSelector extends Activity implements AdapterView.OnItemClick
         else {
             toolbar.setTitle("Добавить продукты");
             for (Content str : allContents)
-                if (!Container.checkIfContained(str.content,Container.selectedContents))
+                if (!Container.checkIfContained(Container.selectedContents, str.content))
                     selectorList.add(str);
             mListAdapter = new ContentAdapter(ContentAdapter.Mode.SELECTOR,
                     this, R.layout.content_item_tall, selectorList, Container.addingContents);

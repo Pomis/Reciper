@@ -182,9 +182,9 @@ public class FullRecipeInfoActivity extends ActionBarActivity
                 @Override
                 public void onClick(View view) {
                     if (mToast != null) mToast.cancel();
-                    if (Container.selectedContents.contains(contentsList.get(index))) {
+                    if (Container.checkIfContained(Container.selectedContents, contentsList.get(index).content)) {
 
-                    } else if (!Container.contentsToBeBought.contains(contentsList.get(index))) {
+                    } else if (!Container.checkIfContained(Container.contentsToBeBought, contentsList.get(index).content)) {
                         ((ImageView) FullRecipeInfoActivity.viewList.get(index).findViewById(R.id.rowImageCart))
                                 .setVisibility(View.VISIBLE);
                         mToast = Toast.makeText(context, contentsList.get(index).content + " добавлен" + WordEndings.getFor(contentsList.get(index).content) + " в список покупок", Toast.LENGTH_SHORT);
@@ -197,7 +197,7 @@ public class FullRecipeInfoActivity extends ActionBarActivity
                                 .setVisibility(View.INVISIBLE);
                         mToast = Toast.makeText(context, contentsList.get(index).content + " убран" + WordEndings.getFor(contentsList.get(index).content) + " из списка покупок", Toast.LENGTH_SHORT);
                         mToast.show();
-                        Container.contentsToBeBought.remove(contentsList.get(index));
+                        Container.removeByName(Container.contentsToBeBought, contentsList.get(index).content);
                         Container.contentsToBeBought = new ArrayList<>(new HashSet<Content>(Container.contentsToBeBought));
                         DatabaseInstruments.saveWishList();
                     }

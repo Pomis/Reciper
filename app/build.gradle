@@ -8,8 +8,8 @@ android {
         applicationId "app.pomis.reciper"
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.5.1"
+        versionCode 8
+        versionName "1.6"
     }
     buildTypes {
         release {

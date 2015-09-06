@@ -1,10 +1,7 @@
 package app.pomis.reciper;
 
-import android.support.annotation.Nullable;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by romanismagilov on 19.05.15.
@@ -15,7 +12,7 @@ public class Container {
     }
 
     public enum TypeOfFave {
-        CONTENT, HEADER, RECIPE
+        CONTENT, HEADER, RECIPE, TOOL
     }
 
     static public ArrayList<Recipe> RecipesList = new ArrayList<>();
@@ -24,7 +21,7 @@ public class Container {
     static public ArrayList<Content> selectedContents;
     static public ArrayList<Content> addingContents = new ArrayList<>();
     static public ArrayList<Content> contentsToBeBought = new ArrayList<>();
-    static public ArrayList<IFavourite> favourites = new ArrayList<>();
+    static public ArrayList<IListItem> favourites = new ArrayList<>();
 
     static public <T> void removeDoubles(ArrayList<T> list) {
         for (int i = list.size() - 1; i >= 0; i--)
@@ -32,7 +29,6 @@ public class Container {
                 if (list.get(i).equals(list.get(j)) && i != j)
                     list.remove(i);
             }
-
     }
 
     static public ArrayList<Content> findContentsByRecipeTitle(String title) {
@@ -68,12 +64,12 @@ public class Container {
 
     static public void calculateRelevancy(Recipe a, ArrayList<Content> list) {
         a.havingContentsCount = 0;
-        a.Relevancy=0;
+        a.Relevancy = 0;
         for (int i = 0; i < a.Contents.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 if (a.Contents.get(i).content.equals(list.get(j).content)) {
                     if (a.Contents.get(i).isMajor)
-                        a.Relevancy+=3/(float) a.Contents.size();
+                        a.Relevancy += 3 / (float) a.Contents.size();
                     a.havingContentsCount++;
                 }
 
@@ -114,27 +110,33 @@ public class Container {
     }
 
     // Нужны, если ссылки на объекты разные, а названия одинаковые
-    static public boolean checkIfContained(ArrayList<Recipe> list, String recipeName) {
-        for (Recipe rep : list)
-            if (recipeName.equals(rep.Name))
-                return true;
+    static public boolean checkIfContained(List list, String objectName) {
+        if (list != null && list.size()>0 && list.get(0) instanceof IListItem)
+            for (IListItem obj : (ArrayList<IListItem>) list) // Всё безопасно, студия гонит
+                if (objectName.equals(obj.getName()))
+                    return true;
         return false;
     }
 
-    static public boolean checkIfContained(String contentName, ArrayList<Content> list) {
-        for (Content c : list)
-            if (contentName.equals(c.content))
-                return true;
-        return false;
+//    static public boolean checkIfContained(String contentName, ArrayList<Content> list) {
+//        for (Content c : list)
+//            if (contentName.equals(c.content))
+//                return true;
+//        return false;
+//    }
+
+    static public void removeByName(List list, String objName) {
+        IListItem obj = new Recipe();
+        if (list != null && list.size()>0 && list.get(0) instanceof IListItem){
+            for (IListItem r : (ArrayList<IListItem>) list)
+                if (r.getName().equals(objName)) {
+                    obj = r;
+                }
+            if (list.contains(obj))
+                list.remove(obj);
+        }
     }
 
-    static public void removeByName(ArrayList<Recipe> list, String recipeName) {
-        Recipe recipe = new Recipe();
-        for (Recipe r : list)
-            if (r.Name.equals(recipeName))
-                recipe = r;
-        if (list.contains(recipe))
-            list.remove(recipe);
-    }
+    //static public void removeByName(ArrayList<>)
 }
 

@@ -3,7 +3,7 @@ package app.pomis.reciper;
 /**
  * Created by romanismagilov on 20.08.15.
  */
-public class ListHeader implements IFavourite {
+public class ListHeader implements IListItem {
 
     @Override
     public Container.TypeOfFave getTypeOfFave() {
@@ -12,5 +12,8 @@ public class ListHeader implements IFavourite {
     public String content;
     public ListHeader(String c){
         content = c;
+    }
+    public String getName(){
+        return content;
     }
 }
