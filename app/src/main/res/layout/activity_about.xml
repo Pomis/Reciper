@@ -18,34 +18,34 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/splash"
         android:layout_centerHorizontal="true"
-        android:text="Reciper"
+        android:text=""
         android:textColor="@color/title"
-        android:textSize="30dp"
-        android:textIsSelectable="true"/>
+        android:textIsSelectable="true"
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/version"
         android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-
         android:layout_height="wrap_content"
+
         android:layout_alignTop="@id/reciper"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="Рецепты для студента. Версия 1.5.1"
-        android:textIsSelectable="true"
-        android:textColor="@color/subTitle" />
+        android:text=""
+        android:textColor="@color/subTitle"
+        android:textIsSelectable="true" />
 
     <TextView
-        android:layout_centerHorizontal="true"
-
+        android:id="@+id/mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/version"
+        android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:padding="16dp"
-        android:textIsSelectable="true"
-        android:text="pomis172@gmail.com"
-        android:textColor="@color/subTitle" />
+        android:text=""
+        android:textColor="@color/subTitle"
+        android:textIsSelectable="true" />
 
     <RelativeLayout
         android:id="@+id/fabAddToFavs"

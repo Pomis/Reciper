@@ -272,7 +272,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     }
 
     public void openAbout(View view) {
-        Intent intent = new Intent(this, AboutActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 

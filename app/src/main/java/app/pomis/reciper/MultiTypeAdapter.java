@@ -14,11 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by romanismagilov on 20.08.15.
  */
-public class FaveAdapter extends ArrayAdapter {
+public class MultiTypeAdapter extends ArrayAdapter {
     ArrayList<IListItem> faveList;
     Activity context;
 
-    public FaveAdapter(Context context, int resource, ArrayList<IListItem> faveList) {
+    public MultiTypeAdapter(Context context, int resource, ArrayList<IListItem> faveList) {
         super(context, resource, faveList);
         this.faveList = faveList;
         this.context = (Activity) context;
@@ -50,7 +50,7 @@ public class FaveAdapter extends ArrayAdapter {
                 rowView = inflater.inflate(R.layout.header, null);
 
                 headerViewHolder.textView = (TextView) rowView.findViewById(R.id.headerText);
-                headerViewHolder.textView.setText(((ListHeader)faveList.get(position)).content);
+                headerViewHolder.textView.setText(((ListHeader) faveList.get(position)).content);
                 rowView.setTag(headerViewHolder);
                 break;
 
@@ -73,6 +73,48 @@ public class FaveAdapter extends ArrayAdapter {
                 //
                 recipeViewHolder.imageView.setImageDrawable(getContext().getResources()
                         .getDrawable(IconHolder.getDishIconId(item.KindOfDish)));
+                break;
+
+            case TOOL:
+                ContentViewHolder toolViewHolder = new ContentViewHolder();
+                rowView = inflater.inflate(R.layout.content_item_tall, null);
+
+                toolViewHolder.textView = (TextView) rowView.findViewById(R.id.rowContent);
+                toolViewHolder.imageView = (ImageView) rowView.findViewById(R.id.rowImage);
+
+                toolViewHolder.imageView.setVisibility(View.VISIBLE);
+                toolViewHolder.textView.setText(((Tool) faveList.get(position)).getName());
+
+                rowView.setTag(toolViewHolder);
+                Tool tool = (Tool) faveList.get(position);
+
+                ((TextView)rowView.findViewById(R.id.subText)).setText(tool.getDescr());
+                if (Container.checkIfContained(Container.selectedTools, tool.Name)) {
+                    toolViewHolder.imageView.setImageDrawable(getContext().getResources()
+                            .getDrawable(R.drawable.ic_done));
+                }
+                else {
+                    toolViewHolder.imageView.setImageDrawable(getContext().getResources()
+                            .getDrawable(IconHolder.getToolIconId(tool.getName())));
+                }
+                break;
+
+            case SETTING:
+                ContentViewHolder settingViewHolder = new ContentViewHolder();
+                rowView = inflater.inflate(R.layout.content_item_tall, null);
+
+                settingViewHolder.textView = (TextView) rowView.findViewById(R.id.rowContent);
+                settingViewHolder.imageView = (ImageView) rowView.findViewById(R.id.rowImage);
+
+                settingViewHolder.imageView.setVisibility(View.VISIBLE);
+                settingViewHolder.textView.setText(((SettingsListElement) faveList.get(position)).getName());
+
+                rowView.setTag(settingViewHolder);
+                SettingsListElement elem = (SettingsListElement) faveList.get(position);
+
+                ((TextView)rowView.findViewById(R.id.subText)).setText(elem.getDescr());
+                    settingViewHolder.imageView.setImageDrawable(getContext().getResources()
+                            .getDrawable(IconHolder.getSettingIconId(elem.getName())));
                 break;
         }
 

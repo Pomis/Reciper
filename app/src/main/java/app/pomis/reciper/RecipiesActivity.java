@@ -19,6 +19,7 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
     ArrayList<Recipe> mostRelevantRecipies = new ArrayList<>();
     ListView mListView;
     boolean loaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
             return true;
         }
 
-        if (id==R.id.action_about){
+        if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             return true;
@@ -72,8 +73,8 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, FullRecipeInfoActivity.class);
         intent.putExtra("name", mostRelevantRecipies.get(i).Name);
-        for (int c=0; c<Container.RecipesList.size(); c++){
-            if (Container.RecipesList.get(c).Name==mostRelevantRecipies.get(i).Name){
+        for (int c = 0; c < Container.RecipesList.size(); c++) {
+            if (Container.RecipesList.get(c).Name == mostRelevantRecipies.get(i).Name) {
                 intent.putExtra("description", Container.RecipesList.get(c).Description);
                 intent.putExtra("short_description", Container.RecipesList.get(c).ShortDescription);
             }
@@ -81,28 +82,41 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
         startActivity(intent);
     }
 
-    public void loadRelevantRecipes(){
+    public void loadRelevantRecipes() {
         mostRelevantRecipies.clear();
-        for (int i=0; i<Container.RecipesList.size(); i++){
+        for (int i = 0; i < Container.RecipesList.size(); i++) {
             Container.calculateRelevancy(Container.RecipesList.get(i), Container.selectedContents);
         }
         Container.sortByRelevancy(Container.RecipesList);
         Container.removeDoubles(Container.RecipesList);
         //for (int i=Container.RecipesList.size()-1; i>Container.RecipesList.size()-10&&i>=0; i--){
-        for (int i=Container.RecipesList.size()-1; i>=0; i--){
+        for (int i = Container.RecipesList.size() - 1; i >= 0; i--) {
             //if (Container.RecipesList.get(i).Relevancy>0)
-            mostRelevantRecipies.add(Container.RecipesList.get(i));
+            boolean isFit = true;
+
+            if (Container.RecipesList.get(i).Tools.size() == 0) { // Если для рецепта не нужен инструмент
+                isFit = true;
+            } else {
+                // Если у нас есть все нужные инструменты
+                for (Tool tool : Container.RecipesList.get(i).Tools) {
+                    if (!Container.checkIfContained(Container.selectedTools, tool.Name))
+                        isFit = false;
+                }
+            }
+
+            if (isFit) {
+                mostRelevantRecipies.add(Container.RecipesList.get(i));
+            }
         }
 
         // Массив
-        mListView = (ListView)findViewById(R.id.RecipiesLV);
+        mListView = (ListView) findViewById(R.id.RecipiesLV);
         // Адаптер
         final ArrayAdapter<String> aa = new RecipeAdapter(this, R.layout.list_item, mostRelevantRecipies);
         mListView.setAdapter(aa);
         mListView.setOnItemClickListener(this);
         loaded = true;
     }
-
 
 
 }

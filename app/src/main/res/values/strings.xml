@@ -8,4 +8,5 @@
     <string name="title_activity_full_recipe_info">FullRecipeInfo</string>
     <string name="title_activity_favourites">FavouritesActivity</string>
     <string name="title_activity_about">О приложении</string>
+    <string name="title_activity_settings">Настройки</string>
 </resources>

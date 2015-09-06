@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class AboutActivity extends ActionBarActivity {
@@ -15,6 +16,14 @@ public class AboutActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((TextView)findViewById(R.id.reciper)).setText(AppInfo.getName());
+        ((TextView)findViewById(R.id.version)).setText(AppInfo.getDescr());
+        ((TextView)findViewById(R.id.mail)).setText(AppInfo.getMail());
     }
 
     @Override

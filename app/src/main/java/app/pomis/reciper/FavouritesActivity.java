@@ -10,22 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 
 public class FavouritesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     //ArrayAdapter mContentAdapter;
-    FaveAdapter mFaveAdapter;
+    MultiTypeAdapter mFaveAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class FavouritesActivity extends ActionBarActivity implements AdapterView
                 if (c.content.length()>0)
                     Container.favourites.add(c);
 
-            mFaveAdapter = new FaveAdapter(this, R.layout.recipe_item, Container.favourites);
+            mFaveAdapter = new MultiTypeAdapter(this, R.layout.recipe_item, Container.favourites);
             ListView listView = ((ListView) findViewById(R.id.listFavs));
             listView.setAdapter(mFaveAdapter);
             listView.setOnItemClickListener(this);

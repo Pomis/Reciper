@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Created by romanismagilov on 16.07.15.
@@ -17,7 +18,7 @@ public class DatabaseInstruments {
 
     DBHelper dbHelper;
     SQLiteDatabase DB;
-    final int CURRENT_DATABASE_VERSION = 9;
+    final int CURRENT_DATABASE_VERSION = 10;
     int PREVIOUS_DATABASE_VERSION = 0;
     static private SharedPreferences preferences;
     static public DatabaseInstruments singleton;
@@ -70,7 +71,7 @@ public class DatabaseInstruments {
         DB.execSQL("INSERT INTO Recipes(Name, Description, ShortDescription, Contents, Source, KindOfDish, Time, TypeOfAppliance) VALUES(" +
                 quote(name) + "," + quote(description) + "," + quote(shortDescription) + "," + quote(contents)
                 + "," + quote(source) + "," + quote(kindOfDish) + "," + quote(String.valueOf(time)) + "," +
-                quote(typeOfAppliance) +  ")");
+                quote(typeOfAppliance) + ")");
     }
 
     public void updateFave(String name, boolean fave) {
@@ -519,6 +520,7 @@ public class DatabaseInstruments {
 
     public ArrayList<Recipe> loadBasicRecipes() {
         ArrayList<Recipe> list = new ArrayList<>();
+        ArrayList<String> tempToolList = new ArrayList<>();
         String query = String.format("SELECT * FROM Recipes");
         Cursor cursor = dbHelper.getReadableDatabase().rawQuery(query, null);
         while (cursor.moveToNext()) {
@@ -530,10 +532,15 @@ public class DatabaseInstruments {
                     cursor.getInt(0),
                     cursor.getString(7),
                     cursor.getString(5),
-                    cursor.getInt(8)
+                    cursor.getInt(8),
+                    new ArrayList<>(Tool.toolListFrom(Arrays.asList(cursor.getString(9).split(","))))
             );
+            tempToolList.addAll(Arrays.asList(cursor.getString(9).split(",")));
             list.add(recipe);
         }
+        tempToolList = new ArrayList<>(new HashSet<String>(tempToolList));
+        Container.allTools.addAll(Tool.toolListFrom(tempToolList));
+        Container.removeByName(Container.allTools, "");
         cursor.close();
         return list;
     }
@@ -551,8 +558,9 @@ public class DatabaseInstruments {
                     cursor.getInt(0),
                     cursor.getString(7),
                     cursor.getString(5),
-                    cursor.getInt(8)
-            );
+                    cursor.getInt(8),
+                    new ArrayList<>(Tool.toolListFrom(Arrays.asList(cursor.getString(9).split(","))))
+                    );
             list.add(recipe);
         }
         cursor.close();
@@ -581,6 +589,37 @@ public class DatabaseInstruments {
         preferences.edit().putString("wishlist", string).apply();
     }
 
+    static public void loadSettings() {
+        ArrayList<Tool> list = new ArrayList<>();
+        try {
+            String string = preferences.getString("tools", "");
+
+            if (string!=null&&string.equals("")) {
+                string = "Плита,Духовка";
+            }
+            else if (string!=null&&string.equals("none")){
+                string = "";
+            }
+
+            list.addAll(Tool.toolListFrom(Arrays.asList(string.split(","))));
+            Container.selectedTools = list;
+        } catch (Exception e) {
+        }
+    }
+
+    static public void saveSettings() {
+        Container.removeDoubles(Container.selectedTools);
+        String string = "";
+        for (int i = 0; i < Container.selectedTools.size(); i++) {
+            string += Container.selectedTools.get(i).getName();
+            if (i < Container.selectedTools.size() - 1)
+                string += ",";
+        }
+        if (string.equals("")){
+            string = "none";
+        }
+        preferences.edit().putString("tools", string).apply();
+    }
     public void clearFaveList() {
         DB.execSQL("UPDATE Recipes SET Favorite=0");
     }

@@ -7,12 +7,9 @@ import java.util.List;
  * Created by romanismagilov on 19.05.15.
  */
 public class Container {
-    public enum TypeOfDish {
-        SOUP, DISH, SNACK,
-    }
 
     public enum TypeOfFave {
-        CONTENT, HEADER, RECIPE, TOOL
+        CONTENT, HEADER, RECIPE, TOOL, SETTING
     }
 
     static public ArrayList<Recipe> RecipesList = new ArrayList<>();
@@ -20,8 +17,15 @@ public class Container {
     static public ArrayList<Content> allContents = new ArrayList<>();
     static public ArrayList<Content> selectedContents;
     static public ArrayList<Content> addingContents = new ArrayList<>();
+
+    // Избранное
     static public ArrayList<Content> contentsToBeBought = new ArrayList<>();
     static public ArrayList<IListItem> favourites = new ArrayList<>();
+
+    // Настройки
+    static public ArrayList<Tool> allTools = new ArrayList<>();
+    static public ArrayList<Tool> selectedTools = new ArrayList<>();
+    static public ArrayList<IListItem> settings = new ArrayList<>();
 
     static public <T> void removeDoubles(ArrayList<T> list) {
         for (int i = list.size() - 1; i >= 0; i--)

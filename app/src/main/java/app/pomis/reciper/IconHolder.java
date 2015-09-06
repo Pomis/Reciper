@@ -80,4 +80,21 @@ public class IconHolder {
             default: return R.drawable.product;
         }
     }
+
+    public static int getToolIconId(String name) {
+        switch (name){
+            case "Духовка" : return R.drawable.duhovka;
+            case "Блендер" : return R.drawable.blender;
+            case "Плита" : return R.drawable.plita;
+
+            default: return R.drawable.defdish;
+        }
+    }
+
+    public static int getSettingIconId(String name) {
+        switch (name){
+            case "Reciper" : return R.mipmap.ic_launcher;
+            default: return R.mipmap.ic_launcher;
+        }
+    }
 }
