@@ -14,9 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 
 public class StoreActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -112,7 +110,6 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
             mToast.cancel();
         mToast = Toast.makeText(this, selectedContents.get(i).content + " убран"+WordEndings.getFor(selectedContents.get(i).content)+" из списка", Toast.LENGTH_SHORT);
         mToast.show();
-
         selectedContents.remove(i);
         RefreshList();
         saveSharedPrefs();

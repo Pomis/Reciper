@@ -72,14 +72,14 @@ public class Container {
         for (int i = 0; i < a.Contents.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 if (a.Contents.get(i).content.equals(list.get(j).content)) {
-                    if (a.Contents.get(i).isMajor)
+                    if (a.Contents.get(i).isMajor) {
                         a.Relevancy += 3 / (float) a.Contents.size();
+                    }
                     a.havingContentsCount++;
                 }
-
             }
+            a.Relevancy += a.havingContentsCount / (float) a.Contents.size();
         }
-        a.Relevancy += a.havingContentsCount / (float) a.Contents.size();
     }
 
 
@@ -115,7 +115,7 @@ public class Container {
 
     // Нужны, если ссылки на объекты разные, а названия одинаковые
     static public boolean checkIfContained(List list, String objectName) {
-        if (list != null && list.size()>0 && list.get(0) instanceof IListItem)
+        if (list != null && list.size() > 0 && list.get(0) instanceof IListItem)
             for (IListItem obj : (ArrayList<IListItem>) list) // Всё безопасно, студия гонит
                 if (objectName.equals(obj.getName()))
                     return true;
@@ -131,7 +131,7 @@ public class Container {
 
     static public void removeByName(List list, String objName) {
         IListItem obj = new Recipe();
-        if (list != null && list.size()>0 && list.get(0) instanceof IListItem){
+        if (list != null && list.size() > 0 && list.get(0) instanceof IListItem) {
             for (IListItem r : (ArrayList<IListItem>) list)
                 if (r.getName().equals(objName)) {
                     obj = r;

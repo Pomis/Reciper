@@ -94,7 +94,7 @@ public class RecipiesActivity extends ActionBarActivity implements AdapterView.O
             //if (Container.RecipesList.get(i).Relevancy>0)
             boolean isFit = true;
 
-            if (Container.RecipesList.get(i).Tools.size() == 0) { // Если для рецепта не нужен инструмент
+            if (Container.RecipesList.get(i).Tools.get(0).getName().equals("")) { // Если для рецепта не нужен инструмент
                 isFit = true;
             } else {
                 // Если у нас есть все нужные инструменты

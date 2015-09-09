@@ -60,7 +60,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/ic_settings"
+            android:background="@drawable/ic_settings_white_24dp"
             android:onClick="openAbout"
             />
     </RelativeLayout>

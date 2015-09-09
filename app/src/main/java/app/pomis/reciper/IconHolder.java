@@ -86,6 +86,8 @@ public class IconHolder {
             case "Духовка" : return R.drawable.duhovka;
             case "Блендер" : return R.drawable.blender;
             case "Плита" : return R.drawable.plita;
+            case "Мультиварка" : return R.drawable.multivarka;
+            case "Микроволновка" : return R.drawable.microvolnovqa;
 
             default: return R.drawable.defdish;
         }
