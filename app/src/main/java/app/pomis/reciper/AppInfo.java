@@ -8,7 +8,7 @@ public class AppInfo {
         return "Reciper";
     }
     public static String getDescr(){
-        return "Версия 1.6";
+        return "Версия 1.6.1";
     }
     public static String getMail(){
         return "pomis172@gmail.com";
