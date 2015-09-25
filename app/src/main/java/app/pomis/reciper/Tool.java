@@ -27,6 +27,8 @@ public class Tool implements IListItem {
             case "Блендер" : return "Измельчитель, ну или миксер";
             case "Плита" : return "А с ней сковородка, кастрюля";
             case "Духовка" : return "Духовой шкаф";
+            case "Микроволновка" : return "СВЧ-печь";
+            case "Мультиварка" : return "Круче, чем рисоварка";
             default: return "";
         }
     }

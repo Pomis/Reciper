@@ -23,8 +23,8 @@ public class WordEndings {
                 )
             ending = "ы";
 
-        if (      word.equals("Зелень")
-                ||word.equals("Картофель")            // Исключения
+        if (
+                 word.equals("Картофель")            // Исключения
                 )
             ending = "";
 

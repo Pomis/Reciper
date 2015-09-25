@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-public class StoreActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class StoreActivity extends Activity implements AdapterView.OnItemClickListener{
 
     boolean sharedPrefsAreLoaded = false;
 
@@ -44,7 +44,6 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         if (!sharedPrefsAreLoaded) loadSharedPrefs();
 
         mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
         saveSharedPrefs();
 
         Container.favouriteRecipes = dbi.loadFaves();
@@ -58,6 +57,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setTitle("Мои продукты");
         toolbar.setSubtitle(getComment());
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setSubtitleTextColor(Color.parseColor("#ffffff"));
 
         Container.contentsToBeBought = DatabaseInstruments.loadWishList();
 
@@ -84,7 +84,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         if (selectedContents.size() == 0)
             val = "Что-то совсем пусто...";
         if (selectedContents.size() > 0 && selectedContents.size() < 4)
-            val = "Маловато продуктов, надо бы побольше";
+            val = "Мало продуктов, надо бы больше";
         return val;
     }
 
@@ -108,21 +108,6 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     }
 
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (mToast != null)
-            mToast.cancel();
-        mToast = Toast.makeText(this, selectedContents.get(i).content + " убран"+WordEndings.getFor(selectedContents.get(i).content)+" из списка", Toast.LENGTH_SHORT);
-        mToast.show();
-        selectedContents.remove(i);
-        RefreshList();
-        saveSharedPrefs();
-        refreshTip();
-        toolbar.setSubtitle(getComment());
-        longClicked = true;
-        return false;
-    }
-
     public void initSwipeOnDismiss(){
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(
@@ -130,13 +115,22 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
                         new SwipeDismissListViewTouchListener.OnDismissCallback() {
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+
+                                if (mToast != null)
+                                    mToast.cancel();
+
                                 for (int position : reverseSortedPositions) {
+                                    mToast = Toast.makeText(getWindow().getContext(), selectedContents.get(position).content + " убран"+WordEndings.getFor(selectedContents.get(position).content)+" из списка", Toast.LENGTH_SHORT);
                                     mAdapter.remove(mAdapter.getItem(position));
                                 }
+                                if (mToast != null)
+                                    mToast.show();
+
                                 mAdapter.notifyDataSetChanged();
                                 saveSharedPrefs();
                                 refreshTip();
                                 toolbar.setSubtitle(getComment());
+
                             }
                         });
         mListView.setOnTouchListener(touchListener);
