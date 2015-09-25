@@ -26,6 +26,8 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     Toolbar toolbar;
     Animation animation;
     Toast mToast;
+    ArrayAdapter<String> mAdapter;
+
     //boolean fabIsHiding = false;
     static public StoreActivity instance;
     public static ArrayList<Content> selectedContents = new ArrayList<>();
@@ -59,6 +61,8 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
 
         Container.contentsToBeBought = DatabaseInstruments.loadWishList();
 
+
+        initSwipeOnDismiss();
     }
 
 
@@ -97,7 +101,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (longClicked) {
         } else {
-            mToast = Toast.makeText(this, "Долгое нажатие удалит продукт", Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(this, "Смахните продукт в сторону, чтобы удалить", Toast.LENGTH_SHORT);
             mToast.show();
         }
         longClicked = false;
@@ -117,6 +121,28 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setSubtitle(getComment());
         longClicked = true;
         return false;
+    }
+
+    public void initSwipeOnDismiss(){
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        mListView,
+                        new SwipeDismissListViewTouchListener.OnDismissCallback() {
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    mAdapter.remove(mAdapter.getItem(position));
+                                }
+                                mAdapter.notifyDataSetChanged();
+                                saveSharedPrefs();
+                                refreshTip();
+                                toolbar.setSubtitle(getComment());
+                            }
+                        });
+        mListView.setOnTouchListener(touchListener);
+        // Setting this scroll listener is required to ensure that during ListView scrolling,
+        // we don't look for swipes.
+        mListView.setOnScrollListener(touchListener.makeScrollListener());
     }
 
     @Override
@@ -253,9 +279,9 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
     }
 
     void RefreshList() {
-        final ArrayAdapter<String> aa = new ContentAdapter(ContentAdapter.Mode.STORE,
+        mAdapter = new ContentAdapter(ContentAdapter.Mode.STORE,
                 this, R.layout.content_item_tall, selectedContents, new ArrayList());
-        mListView.setAdapter(aa);
+        mListView.setAdapter(mAdapter);
     }
 
     void loadRecipes() {
