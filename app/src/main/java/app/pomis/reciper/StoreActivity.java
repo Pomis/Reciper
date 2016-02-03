@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class StoreActivity extends Activity implements AdapterView.OnItemClickListener{
 
@@ -57,7 +59,7 @@ public class StoreActivity extends Activity implements AdapterView.OnItemClickLi
         toolbar.setTitle("Мои продукты");
         toolbar.setSubtitle(getComment());
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        toolbar.setSubtitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.headerColor));
 
         Container.contentsToBeBought = DatabaseInstruments.loadWishList();
 

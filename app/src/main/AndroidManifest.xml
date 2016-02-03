@@ -31,10 +31,10 @@
         <activity
             android:name=".FullRecipeInfoActivity"
             android:label="@string/title_activity_full_recipe_info"
-            android:parentActivityName=".ContentSelector" >
+            android:parentActivityName=".RecipiesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.pomis.reciper.ContentSelector" />
+                android:value="app.pomis.reciper.RecipiesActivity" />
         </activity>
         <activity
             android:name=".FavouritesActivity"

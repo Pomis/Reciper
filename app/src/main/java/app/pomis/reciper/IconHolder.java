@@ -74,6 +74,7 @@ public class IconHolder {
             case "Тушёнка": return R.drawable.tooshenqa;
             case "Гречка": return R.drawable.grecha;
             case "Творог": return R.drawable.tworog;
+            case "Бекон": return R.drawable.beqon;
 
 
 

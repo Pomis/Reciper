@@ -66,19 +66,32 @@ public class Container {
         return -1;
     }
 
-    static public void calculateRelevancy(Recipe a, ArrayList<Content> list) {
-        a.havingContentsCount = 0;
-        a.Relevancy = 0;
-        for (int i = 0; i < a.Contents.size(); i++) {
-            for (int j = 0; j < list.size(); j++) {
-                if (a.Contents.get(i).content.equals(list.get(j).content)) {
-                    if (a.Contents.get(i).isMajor) {
-                        a.Relevancy += 3 / (float) a.Contents.size();
+    static public void calculateRelevancy(Recipe recipe, ArrayList<Content> list) {
+        recipe.havingContentsCount = 0;
+        recipe.Relevancy = 0;
+
+        int majorContentsCount = 0;
+        int minorContentsCount = 0;
+        float majorPercentage = 0.7f;
+        float minorPercentage = 0.3f;
+
+        for (Content recipeContent : recipe.Contents) {
+            if (recipeContent.isMajor)
+                majorContentsCount++;
+            else
+                minorContentsCount++;
+        }
+        for (Content recipeContent : recipe.Contents) {
+            for (Content usersContent : list) {
+                if (usersContent.getName().equals(recipeContent.getName())) {
+                    recipe.havingContentsCount++;
+                    if (recipeContent.isMajor) {
+                        recipe.Relevancy += majorPercentage / (float) majorContentsCount;
+                    } else {
+                        recipe.Relevancy += minorPercentage / (float) minorContentsCount;
                     }
-                    a.havingContentsCount++;
                 }
             }
-            a.Relevancy += a.havingContentsCount / (float) a.Contents.size();
         }
     }
 
