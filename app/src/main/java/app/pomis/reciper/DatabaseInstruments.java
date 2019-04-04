@@ -18,7 +18,7 @@ public class DatabaseInstruments {
 
     DBHelper dbHelper;
     SQLiteDatabase DB;
-    final int CURRENT_DATABASE_VERSION = 12;
+    final int CURRENT_DATABASE_VERSION = 13;
     int PREVIOUS_DATABASE_VERSION = 0;
     static private SharedPreferences preferences;
     static public DatabaseInstruments singleton;
